@@ -1,0 +1,230 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+min-height:100vh;
+padding:30px;
+background: linear-gradient(to right,#7fb8b3,#cfdedd);
+}
+
+.container{
+width:100%;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+color:#315b5a;
+
+}
+.log{
+    height: 70px;
+}
+h2{
+    font-size: 40px;
+}
+
+
+.search-box{
+width:470px;
+background:white;
+padding:12px 15px;
+border-radius:10px;
+}
+
+.search-box input{
+border:none;
+outline:none;
+width:90%;
+}
+
+.right-nav{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.right-nav a{
+text-decoration:none;
+font-weight:600;
+color:#315b5a;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:10px;
+background:white;
+padding:8px 15px;
+border-radius:10px;
+}
+
+.profile img{
+width:35px;
+height:35px;
+border-radius:50%;
+}
+
+.content{
+display:grid;
+grid-template-columns:42% 58%;
+gap:25px;
+}
+
+.left,
+.right{
+background:rgba(255,255,255,.25);
+backdrop-filter:blur(15px);
+padding:25px;
+border-radius:25px;
+}
+
+.playlist-card{
+position:relative;
+overflow:hidden;
+border-radius:20px;
+}
+
+.playlist-card img{
+width:100%;
+height:400px;
+object-fit:cover;
+display:block;
+}
+
+.overlay{
+position:absolute;
+bottom:25px;
+left:25px;
+color:white;
+}
+
+.overlay h1{
+font-size:55px;
+}
+
+.overlay p{
+font-size:22px;
+}
+
+.video-box {
+margin-top:25px;
+}
+
+.video-box img{
+width:100%;
+height:400px;
+border:none;
+border-radius:15px;
+}
+.overlay1{
+position:absolute;
+bottom:50px;
+left:40px;
+color:white;
+}
+
+.overlay1 h1{
+font-size:55px;
+}
+
+.overlay1 p{
+font-size:22px;
+
+}
+
+.right h1{
+font-size:58px;
+color:#244d4d;
+}
+
+.right p{
+margin-top:10px;
+color:#567676;
+}
+
+.songs{
+margin-top:25px;
+}
+.song:hover {
+    background: white;
+}
+
+
+.song{
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:rgba(255,255,255,.5);
+padding:18px;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+.song.active{
+background:#e7fbf8;
+}
+
+.num{
+font-size:28px;
+font-weight:bold;
+color:#2c5d5c;
+width:40px;
+}
+
+.info{
+flex:1;
+}
+
+.info h3{
+font-size:24px;
+color:#244d4d;
+}
+
+.info span{
+color:#6d8787;
+}
+
+.icons{
+display:flex;
+align-items:center;
+gap:20px;
+color:#5f7e7e;
+}
+
+.player{
+margin-top:25px;
+background:rgba(255,255,255,.5);
+padding:20px;
+border-radius:15px;
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.player button{
+width:55px;
+height:55px;
+border:none;
+border-radius:12px;
+background:#70b8b4;
+color:white;
+font-size:20px;
+cursor:pointer;
+}
+
+.player h3{
+color:#244d4d;
+}

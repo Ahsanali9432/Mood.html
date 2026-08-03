@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MoodVibe</title>
+<link rel="stylesheet" href="Vibe.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Hidden YouTube Player - ZAROORI HAI -->
+<div id="yt-player-frame" style="position:fixed;bottom:-10px;right:-10px;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
+
+<!-- Floating YouTube Popup -->
+<div id="yt-float-popup">
+    <div class="yt-popup-topbar">
+        <div class="yt-popup-topbar-title" id="yt-popup-title">YouTube</div>
+        <button class="yt-popup-close" onclick="closeYtPopup()">✕</button>
+    </div>
+    <div id="yt-popup-frame" class="yt-popup-frame"></div>
+</div>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <button class="hamburger" onclick="toggleSidebar()">☰</button>
+            <div class="logo-icon"><img class="log" src="logo.jpg.png" alt=""></div>
+            <h2>MoodVibe</h2>
+        </div>
+        <ul>
+            <li class="active" onclick="showPage('home',this)"><i class="fas fa-home"></i> <span>Home</span></li>
+            <li onclick="showPage('moods',this)"><i class="fas fa-smile"></i> <span>Moods</span></li>
+            <li onclick="showPage('genres',this)"><i class="fas fa-music"></i> <span>Genres</span></li>
+            <li onclick="showPage('favorites',this)"><i class="fas fa-heart"></i> <span>Favorites</span></li>
+            <li onclick="showPage('history',this)"><i class="fas fa-history"></i> <span>History</span></li>
+            <li onclick="openArtistsPage()"><i class="fas fa-microphone"></i> <span>Artists</span></li>
+        </ul>
+
+        <div class="sidebar-bottom">
+            <div class="settings-btn" onclick="toggleSettings()">
+                <i class="fas fa-cog"></i>
+                <span id="l-settings">Settings</span>
+            </div>
+        </div>
+
+        <div class="settings-panel" id="settings-panel">
+            <div class="sp-title">⚙️ <span id="l-sp-title">Settings</span></div>
+            <div class="sp-row">
+                <div class="sp-label">🌙 <span id="l-darkmode">Dark Mode</span></div>
+                <div class="toggle-track" id="dark-toggle" onclick="toggleDark()">
+                    <div class="toggle-thumb"></div>
+                </div>
+            </div>
+            <div class="sp-lang-label">🌐 <span id="l-language">Language</span></div>
+            <div class="lang-btns">
+                <div class="lang-btn active" id="btn-en" onclick="setLang('en')">English</div>
+                <div class="lang-btn" id="btn-ur" onclick="setLang('ur')">اردو</div>
+                <div class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <div class="topbar">
+            <div class="topbar-logo">
+                <span>MoodVibe</span>
+            </div>
+            <input type="text" id="global-search-input" placeholder="🔍 Search">
+            <div class="topbar-btns" id="topbar-btns"></div>
+        </div>
+
+        <div class="pages">
+
+            <!-- HOME PAGE -->
+            <div class="page show" id="page-home">
+                <h1 id="home-greeting">Welcome to MoodVibe</h1>
+                <p class="subtitle" id="home-subtitle">Music That Matches Your Mood</p>
+
+                <div class="moods">
+                    <div class="card c1" onclick="showMood('happy')">
+                        <span class="fav-heart fav-heart--corner" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</span>
+                        <div class="card-icon">😊</div><span id="m-happy">Happy</span>
+                    </div>
+                    <div class="card c2" onclick="showMood('sad')">
+                        <span class="fav-heart fav-heart--corner" data-mood="sad" onclick="toggleFavMood(event,'sad')">♡</span>
+                        <div class="card-icon">😢</div><span id="m-sad">Sad</span>
+                    </div>
+                    <div class="card c3" onclick="showMood('romantic')">
+                        <span class="fav-heart fav-heart--corner" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</span>
+                        <div class="card-icon">❤️</div><span id="m-romantic">Romantic</span>
+                    </div>
+                    <div class="card c4" onclick="showMood('energetic')">
+                        <span class="fav-heart fav-heart--corner" data-mood="energetic" onclick="toggleFavMood(event,'energetic')">♡</span>
+                        <div class="card-icon">⚡</div><span id="m-energetic">Energetic</span>
+                    </div>
+                    <div class="card c5" onclick="showMood('sleep')">
+                        <span class="fav-heart fav-heart--corner" data-mood="sleep" onclick="toggleFavMood(event,'sleep')">♡</span>
+                        <div class="card-icon">🌙</div><span id="m-sleep">Sleep</span>
+                    </div>
+                    <div class="card other-card" onclick="openOtherPage('moodcards')">
+                        <div class="card-icon">➕</div><span id="m-other">Other</span>
+                    </div>
+                </div>
+
+                <div class="two-col">
+                    <div class="section-box">
+                        <h3 id="l-moodbased">Mood Based</h3>
+                        <div class="tags">
+                            <span class="active-tag" onclick="showMood('happy')">😊 <span id="t-happy">Happy</span><i class="fav-heart fav-heart--inline" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</i></span>
+                            <span onclick="showMood('sad')">😢 <span id="t-sad">Sad</span><i class="fav-heart fav-heart--inline" data-mood="sad" onclick="toggleFavMood(event,'sad')">♡</i></span>
+                            <span onclick="showMood('romantic')">❤️ <span id="t-romantic">Romantic</span><i class="fav-heart fav-heart--inline" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</i></span>
+                            <span onclick="showMood('broken')">💔 <span id="t-broken">Broken Heart</span><i class="fav-heart fav-heart--inline" data-mood="broken" onclick="toggleFavMood(event,'broken')">♡</i></span>
+                            <span onclick="showMood('love')">💚 <span id="t-love">Love</span><i class="fav-heart fav-heart--inline" data-mood="love" onclick="toggleFavMood(event,'love')">♡</i></span>
+                            <span class="other-tag" onclick="openOtherPage('moodtags')">➕ <span id="t-other">Other</span></span>
+                        </div>
+                        <h3 id="l-energy">Energy &amp; Activity</h3>
+                        <div class="tags">
+                            <span onclick="showMood('gym')">🏋 <span id="t-gym">Gym</span><i class="fav-heart fav-heart--inline" data-mood="gym" onclick="toggleFavMood(event,'gym')">♡</i></span>
+                            <span onclick="showMood('energetic')">⚡ <span id="t-energetic">Energetic</span><i class="fav-heart fav-heart--inline" data-mood="energetic" onclick="toggleFavMood(event,'energetic')">♡</i></span>
+                            <span onclick="showMood('sleep')">🌙 <span id="t-sleep">Sleep</span><i class="fav-heart fav-heart--inline" data-mood="sleep" onclick="toggleFavMood(event,'sleep')">♡</i></span>
+                            <span onclick="showMood('lofi')">🎧 <span id="t-lofi">Lofi</span><i class="fav-heart fav-heart--inline" data-mood="lofi" onclick="toggleFavMood(event,'lofi')">♡</i></span>
+                            <span onclick="showMood('motivation')">💪 <span id="t-motivation">Motivation</span><i class="fav-heart fav-heart--inline" data-mood="motivation" onclick="toggleFavMood(event,'motivation')">♡</i></span>
+                            <span class="other-tag" onclick="openOtherPage('energytags')">➕ Other</span>
+                        </div>
+                    </div>
+                    <div class="section-box">
+                        <h3 id="l-genre">Genre / Language</h3>
+                        <div class="tags tags-genre">
+                            <span onclick="showMood('punjabi')">🎤 Punjabi<i class="fav-heart fav-heart--inline" data-mood="punjabi" onclick="toggleFavMood(event,'punjabi')">♡</i></span>
+                            <span onclick="showMood('hiphop')">🎧 Hip Hop<i class="fav-heart fav-heart--inline" data-mood="hiphop" onclick="toggleFavMood(event,'hiphop')">♡</i></span>
+                            <span onclick="showMood('hollywood')">🎬 Hollywood<i class="fav-heart fav-heart--inline" data-mood="hollywood" onclick="toggleFavMood(event,'hollywood')">♡</i></span>
+                            <span onclick="showMood('marathi')">🎵 Marathi<i class="fav-heart fav-heart--inline" data-mood="marathi" onclick="toggleFavMood(event,'marathi')">♡</i></span>
+                            <span class="other-tag" onclick="openOtherPage('genretags')">➕ Other</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRID: Trending | Latest | Top Picks -->
+                <div class="grid">
+
+                    <!-- Column 1: Trending (row 1) -->
+                    <div style="grid-column:1; grid-row:1;">
+                        <h3 id="l-trending">Trending Songs</h3>
+                        <div class="playlist" id="home-trending-row">
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=80" onclick="showMood('happy')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</span>
+                            </div>
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=80" onclick="showMood('lofi')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="lofi" onclick="toggleFavMood(event,'lofi')">♡</span>
+                            </div>
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=80" onclick="showMood('energetic')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="energetic" onclick="toggleFavMood(event,'energetic')">♡</span>
+                            </div>
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1511376777868-611b54f68947?w=80" onclick="showMood('romantic')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</span>
+                            </div>
+                            <div class="other-thumb" onclick="showMood('trending')">➕</div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Latest (row 1) -->
+                    <div style="grid-column:2; grid-row:1;">
+                        <h3 id="l-latest">Latest Songs</h3>
+                        <div class="playlist" id="home-latest-row">
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=80" onclick="showMood('romantic')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</span>
+                            </div>
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1517260911205-8c91b1b0b7a8?w=80" onclick="showMood('hiphop')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="hiphop" onclick="toggleFavMood(event,'hiphop')">♡</span>
+                            </div>
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?w=80" onclick="showMood('sad')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="sad" onclick="toggleFavMood(event,'sad')">♡</span>
+                            </div>
+                            <div class="thumb-wrap">
+                                <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=80" onclick="showMood('sleep')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="sleep" onclick="toggleFavMood(event,'sleep')">♡</span>
+                            </div>
+                            <div class="other-thumb" onclick="showMood('latest')">➕</div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Top Mood Picks (spans row 1+2) -->
+                    <div class="grid-col-toppicks">
+                        <h3 id="l-toppicks">Top Mood Picks</h3>
+                        <div class="playlist vertical">
+                            <div class="box big pick-happy" onclick="showMood('tophappy')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="tophappy" onclick="toggleFavMood(event,'tophappy')">♡</span>
+                                😊 <span id="l-tophappy">Top Happy</span>
+                            </div>
+                            <div class="box big pick-sad" onclick="showMood('topsad')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="topsad" onclick="toggleFavMood(event,'topsad')">♡</span>
+                                🌙 <span id="l-topsad">Top Sad</span>
+                            </div>
+                            <div class="box big pick-energy" onclick="showMood('topenergetic')">
+                                <span class="fav-heart fav-heart--corner-sm" data-mood="topenergetic" onclick="toggleFavMood(event,'topenergetic')">♡</span>
+                                ⚡ <span id="l-topenergy">Top Energetic</span>
+                            </div>
+                            <div class="box big pick-other" onclick="openOtherPage('toppicks')">➕ Other</div>
+                        </div>
+                    </div>
+
+                    <div class="now-playing-mini-card" id="now-playing-mini-card" style="grid-column:1/3; grid-row:2;">
+                        <div class="npm-art" id="npm-art">
+                            <div class="npm-art-placeholder">
+                                <div class="npm-bars">
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="npm-center">
+                            <div class="npm-label">🎵 Now Playing</div>
+                            <div class="npm-title" id="npm-title">Koi mood select karein</div>
+                            <div class="npm-channel" id="npm-channel">MoodVibe Music Player</div>
+                            <div class="npm-progress-wrap">
+                                <div class="npm-progress-bar" id="npm-progress-bar">
+                                    <div class="npm-progress-fill" id="npm-progress-fill"></div>
+                                </div>
+                                <div class="npm-time-row">
+                                    <span id="npm-time-cur">0:00</span>
+                                    <span id="npm-time-tot">0:00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="npm-right">
+                            <button class="npm-btn" onclick="prevTrack()" title="Previous">⏮</button>
+                            <button class="npm-btn npm-btn-play" onclick="playPause()" id="npm-play-btn" title="Play/Pause">▶</button>
+                            <button class="npm-btn" onclick="nextTrack()" title="Next">⏭</button>
+                        </div>
+                    </div>
+
+                    <div style="display:none;">
+                        <div id="home-now-thumb"></div>
+                        <p id="current-playlist-title"></p>
+                        <p id="l-nowplaying"></p>
+                    </div>
+
+                </div>
+
+                <div class="artists-section">
+                    <div class="artists-header">
+                        <h3 class="artists-title">🎤 Popular Artists</h3>
+                        <button class="artists-show-all" onclick="openArtistsPage()">Show All</button>
+                    </div>
+                    <div class="artists-row" id="artists-row">
+
+                        <div class="artist-card" onclick="showArtist('arijit')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="arijit" src="https://ui-avatars.com/api/?name=Arijit+Singh&background=2e7d71&color=fff&size=200&bold=true" alt="Arijit Singh">
+                            </div>
+                            <div class="artist-name">Arijit Singh</div>
+                            <div class="artist-label">Bollywood</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('shreya')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="shreya" src="https://ui-avatars.com/api/?name=Shreya+Ghoshal&background=7a8fd4&color=fff&size=200&bold=true" alt="Shreya Ghoshal">
+                            </div>
+                            <div class="artist-name">Shreya Ghoshal</div>
+                            <div class="artist-label">Bollywood</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('atif')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="atif" src="https://ui-avatars.com/api/?name=Atif+Aslam&background=5bc8aa&color=fff&size=200&bold=true" alt="Atif Aslam">
+                            </div>
+                            <div class="artist-name">Atif Aslam</div>
+                            <div class="artist-label">Pakistani</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('rahat')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="rahat" src="https://ui-avatars.com/api/?name=Rahat+RFAK&background=9de2d8&color=1a4a48&size=200&bold=true" alt="Rahat Fateh Ali Khan">
+                            </div>
+                            <div class="artist-name">Rahat Fateh Ali Khan</div>
+                            <div class="artist-label">Pakistani</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('diljit')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="diljit" src="https://ui-avatars.com/api/?name=Diljit+Dosanjh&background=cbdff1&color=1a4a48&size=200&bold=true" alt="Diljit Dosanjh">
+                            </div>
+                            <div class="artist-name">Diljit Dosanjh</div>
+                            <div class="artist-label">Punjabi</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('karan')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="karan" src="https://ui-avatars.com/api/?name=Karan+Aujla&background=d7dbf5&color=1a4a48&size=200&bold=true" alt="Karan Aujla">
+                            </div>
+                            <div class="artist-name">Karan Aujla</div>
+                            <div class="artist-label">Punjabi</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('edsheeran')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="edsheeran" src="https://ui-avatars.com/api/?name=Ed+Sheeran&background=2e7d71&color=fff&size=200&bold=true" alt="Ed Sheeran">
+                            </div>
+                            <div class="artist-name">Ed Sheeran</div>
+                            <div class="artist-label">Hollywood</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('weeknd')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="weeknd" src="https://ui-avatars.com/api/?name=The+Weeknd&background=1a3a38&color=fff&size=200&bold=true" alt="The Weeknd">
+                            </div>
+                            <div class="artist-name">The Weeknd</div>
+                            <div class="artist-label">Hollywood</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('taylor')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="taylor" src="https://ui-avatars.com/api/?name=Taylor+Swift&background=cfc8f2&color=1a4a48&size=200&bold=true" alt="Taylor Swift">
+                            </div>
+                            <div class="artist-name">Taylor Swift</div>
+                            <div class="artist-label">Hollywood</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('apdhillon')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="apdhillon" src="https://ui-avatars.com/api/?name=AP+Dhillon&background=5bc8aa&color=fff&size=200&bold=true" alt="AP Dhillon">
+                            </div>
+                            <div class="artist-name">AP Dhillon</div>
+                            <div class="artist-label">International</div>
+                        </div>
+
+                        <div class="artist-card" onclick="showArtist('bts')">
+                            <div class="artist-img-wrap">
+                                <img data-artist-key="bts" src="https://ui-avatars.com/api/?name=BTS+Kpop&background=7a8fd4&color=fff&size=200&bold=true" alt="BTS">
+                            </div>
+                            <div class="artist-name">BTS</div>
+                            <div class="artist-label">K-Pop</div>
+                        </div>
+
+                        <div class="artist-card artist-card--other" onclick="openArtistsPage()">
+                            <div class="artist-img-wrap artist-other-wrap">
+                                <span>➕</span>
+                            </div>
+                            <div class="artist-name">More</div>
+                            <div class="artist-label">Artists</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="footer">© 2026 MoodVibe &nbsp;|&nbsp; Concept Project &nbsp;|&nbsp; University Submission</div>
+            </div>
+
+            <!-- ARTISTS PAGE -->
+            <div class="page" id="page-artists">
+                <button class="back-btn" onclick="goBack()">← Wapas Jao</button>
+                <div class="other-header">
+                    <h1>🎤 All Artists</h1>
+                    <p>Apna pasandida artist chuniye</p>
+                </div>
+                <div class="artists-full-grid" id="artists-full-grid"></div>
+            </div>
+
+            <!-- ARTIST DETAIL PAGE -->
+            <div class="page" id="page-artist-detail">
+                <button class="back-btn" onclick="goBackToArtists()">← Wapas Jao</button>
+                <div class="mood-detail-header c1" id="artist-detail-header">
+                    <div class="artist-detail-hero">
+                        <div class="artist-detail-img" id="artist-detail-img"></div>
+                        <div class="artist-detail-info">
+                            <div class="artist-detail-badge" id="artist-detail-badge">Artist</div>
+                            <h1 id="artist-detail-name">Artist Name</h1>
+                            <p id="artist-detail-genre">Genre</p>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin:16px 0 8px;">🎵 Songs</h3>
+                <div class="song-list" id="artist-song-list">
+                    <div class="song-item"><div class="song-info"><div class="song-title">Loading songs...</div></div></div>
+                </div>
+            </div>
+
+            <!-- MOODS PAGE -->
+            <div class="page" id="page-moods">
+                <h1 id="l-allmoods">All Moods</h1>
+                <p class="subtitle" id="l-moodssub">Apna mood chuniye aur music enjoy karein</p>
+                <div class="mood-grid">
+                    <div class="mood-big-card c1" onclick="showMood('happy')">
+                        <span class="fav-heart fav-heart--corner" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</span>
+                        <div class="card-icon">😊</div><div class="card-name" id="pg-happy">Happy</div>
+                    </div>
+                    <div class="mood-big-card c2" onclick="showMood('sad')">
+                        <span class="fav-heart fav-heart--corner" data-mood="sad" onclick="toggleFavMood(event,'sad')">♡</span>
+                        <div class="card-icon">😢</div><div class="card-name" id="pg-sad">Sad</div>
+                    </div>
+                    <div class="mood-big-card c3" onclick="showMood('romantic')">
+                        <span class="fav-heart fav-heart--corner" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</span>
+                        <div class="card-icon">❤️</div><div class="card-name" id="pg-romantic">Romantic</div>
+                    </div>
+                    <div class="mood-big-card c4" onclick="showMood('energetic')">
+                        <span class="fav-heart fav-heart--corner" data-mood="energetic" onclick="toggleFavMood(event,'energetic')">♡</span>
+                        <div class="card-icon">⚡</div><div class="card-name" id="pg-energetic">Energetic</div>
+                    </div>
+                    <div class="mood-big-card c5" onclick="showMood('sleep')">
+                        <span class="fav-heart fav-heart--corner" data-mood="sleep" onclick="toggleFavMood(event,'sleep')">♡</span>
+                        <div class="card-icon">🌙</div><div class="card-name" id="pg-sleep">Sleep</div>
+                    </div>
+                    <div class="mood-big-card c1" onclick="showMood('broken')">
+                        <span class="fav-heart fav-heart--corner" data-mood="broken" onclick="toggleFavMood(event,'broken')">♡</span>
+                        <div class="card-icon">💔</div><div class="card-name" id="pg-broken">Broken Heart</div>
+                    </div>
+                    <div class="mood-big-card c2" onclick="showMood('love')">
+                        <span class="fav-heart fav-heart--corner" data-mood="love" onclick="toggleFavMood(event,'love')">♡</span>
+                        <div class="card-icon">💚</div><div class="card-name" id="pg-love">Love</div>
+                    </div>
+                    <div class="mood-big-card c3" onclick="showMood('lofi')">
+                        <span class="fav-heart fav-heart--corner" data-mood="lofi" onclick="toggleFavMood(event,'lofi')">♡</span>
+                        <div class="card-icon">🎧</div><div class="card-name" id="pg-lofi">Lofi</div>
+                    </div>
+                    <div class="mood-big-card c4" onclick="showMood('motivation')">
+                        <span class="fav-heart fav-heart--corner" data-mood="motivation" onclick="toggleFavMood(event,'motivation')">♡</span>
+                        <div class="card-icon">💪</div><div class="card-name" id="pg-motivation">Motivation</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GENRES PAGE -->
+            <div class="page" id="page-genres">
+                <h1 id="l-genrespage">Genres</h1>
+                <p class="subtitle" id="l-genressub">Genre ya language ke hisaab se music chuniye</p>
+                <div class="genre-grid">
+                    <div class="genre-card" onclick="showMood('punjabi')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="punjabi" onclick="toggleFavMood(event,'punjabi')">♡</span>
+                        <div class="card-icon">🎤</div>Punjabi
+                    </div>
+                    <div class="genre-card" onclick="showMood('hiphop')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="hiphop" onclick="toggleFavMood(event,'hiphop')">♡</span>
+                        <div class="card-icon">🎧</div>Hip Hop
+                    </div>
+                    <div class="genre-card" onclick="showMood('hollywood')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="hollywood" onclick="toggleFavMood(event,'hollywood')">♡</span>
+                        <div class="card-icon">🎬</div>Hollywood
+                    </div>
+                    <div class="genre-card" onclick="showMood('marathi')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="marathi" onclick="toggleFavMood(event,'marathi')">♡</span>
+                        <div class="card-icon">🎵</div>Marathi
+                    </div>
+                    <div class="genre-card" onclick="showMood('rock')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="rock" onclick="toggleFavMood(event,'rock')">♡</span>
+                        <div class="card-icon">🎸</div>Rock
+                    </div>
+                    <div class="genre-card" onclick="showMood('classical')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="classical" onclick="toggleFavMood(event,'classical')">♡</span>
+                        <div class="card-icon">🎹</div>Classical
+                    </div>
+                    <div class="genre-card" onclick="showMood('pop')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="pop" onclick="toggleFavMood(event,'pop')">♡</span>
+                        <div class="card-icon">🥁</div>Pop
+                    </div>
+                    <div class="genre-card" onclick="showMood('jazz')">
+                        <span class="fav-heart fav-heart--corner-sm" data-mood="jazz" onclick="toggleFavMood(event,'jazz')">♡</span>
+                        <div class="card-icon">🎺</div>Jazz
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAVORITES PAGE -->
+            <div class="page" id="page-favorites">
+                <h1>❤️ <span id="l-favpage">Favorites</span></h1>
+                <p class="subtitle" id="l-favsub">Aapke pasandeeda moods aur playlists</p>
+                <div class="fav-layout">
+                    <div class="fav-left" id="fav-left-list"></div>
+                    <div class="fav-right">
+                        <h2 class="fav-right-title" id="l-favrighttitle">Your Favorite Playlists</h2>
+                        <p class="fav-right-sub" id="l-favrightsub">Jo bhi ♡ se favorite kiya hai, wo yahan milega</p>
+                        <div class="fav-player-list" id="fav-player-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HISTORY PAGE -->
+            <div class="page" id="page-history">
+                <h1>🕐 <span id="l-histpage">History</span></h1>
+                <p class="subtitle" id="l-histsub">Aapne recently kya suna</p>
+            </div>
+
+            <!-- SEARCH RESULTS PAGE -->
+            <div class="page" id="page-search">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back9">Wapas Jao</span></button>
+
+                <div class="search-now-playing" id="search-now-playing">
+                    <div class="snp-art" id="snp-art">
+                        <div style="font-size:22px;">🔍</div>
+                    </div>
+                    <div class="snp-info">
+                        <div class="snp-label">🎵 Now Playing</div>
+                        <div class="snp-title" id="search-result-title">Search karein...</div>
+                        <div class="snp-sub" id="search-result-sub"></div>
+                    </div>
+                    <div class="snp-controls">
+                        <button class="snp-btn" onclick="prevTrack()">⏮</button>
+                        <button class="snp-btn snp-play" onclick="playPause()" id="snp-play-btn">▶</button>
+                        <button class="snp-btn" onclick="nextTrack()">⏭</button>
+                    </div>
+                </div>
+                <div class="snp-progress-wrap" id="snp-progress-wrap">
+                    <div class="snp-progress-bar" id="snp-progress-bar">
+                        <div class="snp-progress-fill" id="snp-progress-fill"></div>
+                    </div>
+                    <div class="snp-time-row">
+                        <span id="snp-time-cur">0:00</span>
+                        <span id="snp-time-tot">0:00</span>
+                    </div>
+                </div>
+
+                <h3 style="margin:14px 0 8px; font-size:14px; color:#1a3a38;">Related Songs</h3>
+                <div class="song-list" id="search-song-list"></div>
+            </div>
+
+            <!-- MOOD DETAIL PAGES -->
+            <div class="page" id="page-mood-happy">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back1">Wapas Jao</span></button>
+                <div class="mood-detail-header c1">
+                    <span class="fav-heart fav-heart--header" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</span>
+                    <div class="big-icon">😊</div><h1>Happy Playlist</h1><p>Khushi bhare gaane!</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Happy — Pharrell Williams</div><div class="song-sub">Pop • 3:53</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">2</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">Can't Stop the Feeling</div><div class="song-sub">Justin Timberlake • 3:56</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">3</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Good as Hell</div><div class="song-sub">Lizzo • 2:39</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">4</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">Uptown Funk</div><div class="song-sub">Bruno Mars • 4:30</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-mood-sad">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back2">Wapas Jao</span></button>
+                <div class="mood-detail-header c2">
+                    <span class="fav-heart fav-heart--header" data-mood="sad" onclick="toggleFavMood(event,'sad')">♡</span>
+                    <div class="big-icon">😢</div><h1>Sad Playlist</h1><p>Dil ki baat kehne wale gaane</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Someone Like You</div><div class="song-sub">Adele • 4:45</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">2</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">Fix You</div><div class="song-sub">Coldplay • 4:55</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">3</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">The Night We Met</div><div class="song-sub">Lord Huron • 3:28</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-mood-romantic">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back3">Wapas Jao</span></button>
+                <div class="mood-detail-header c3">
+                    <span class="fav-heart fav-heart--header" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</span>
+                    <div class="big-icon">❤️</div><h1>Romantic Playlist</h1><p>Pyaar ke gaane</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Perfect</div><div class="song-sub">Ed Sheeran • 4:23</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">2</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">All of Me</div><div class="song-sub">John Legend • 4:29</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">3</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">A Thousand Years</div><div class="song-sub">Christina Perri • 4:45</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-mood-energetic">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back4">Wapas Jao</span></button>
+                <div class="mood-detail-header c4">
+                    <span class="fav-heart fav-heart--header" data-mood="energetic" onclick="toggleFavMood(event,'energetic')">♡</span>
+                    <div class="big-icon">⚡</div><h1>Energetic Playlist</h1><p>Full energy boost!</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Blinding Lights</div><div class="song-sub">The Weeknd • 3:20</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">2</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">Eye of the Tiger</div><div class="song-sub">Survivor • 4:05</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">3</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Thunderstruck</div><div class="song-sub">AC/DC • 4:52</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-mood-sleep">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back5">Wapas Jao</span></button>
+                <div class="mood-detail-header c5">
+                    <span class="fav-heart fav-heart--header" data-mood="sleep" onclick="toggleFavMood(event,'sleep')">♡</span>
+                    <div class="big-icon">🌙</div><h1>Sleep Playlist</h1><p>Sukoon bhari raatein</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Weightless</div><div class="song-sub">Marconi Union • 8:09</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">2</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">River Flows in You</div><div class="song-sub">Yiruma • 3:32</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">3</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Clair de Lune</div><div class="song-sub">Debussy • 4:55</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-mood-lofi">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back6">Wapas Jao</span></button>
+                <div class="mood-detail-header c1">
+                    <span class="fav-heart fav-heart--header" data-mood="lofi" onclick="toggleFavMood(event,'lofi')">♡</span>
+                    <div class="big-icon">🎧</div><h1>Lofi Playlist</h1><p>Study, chill, relax</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Lofi Study Beat #1</div><div class="song-sub">ChilledCow • 2:45</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">2</span><div class="song-img">🎶</div><div class="song-info"><div class="song-title">Coffee Shop Vibes</div><div class="song-sub">Lofi Girl • 3:10</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-mood-default">
+                <button class="back-btn" onclick="goBack()">← <span id="l-back7">Wapas Jao</span></button>
+                <div class="mood-detail-header c2">
+                    <span class="fav-heart fav-heart--header" id="default-fav-heart" data-mood="" onclick="toggleFavMood(event, this.getAttribute('data-mood'))">♡</span>
+                    <div class="big-icon" id="default-icon">🎵</div>
+                    <h1 id="default-title">Playlist</h1>
+                    <p id="default-sub">Is mood ke gaane</p>
+                </div>
+                <div class="song-list">
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Coming Soon...</div><div class="song-sub">Jald aayenge gaane</div></div><span class="play-icon">▶</span></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-other">
+                <button class="back-btn" onclick="closeOtherPage()">← <span id="l-back8">Wapas Jao</span></button>
+                <div class="other-header"><h1 id="other-title">More Options</h1><p id="other-sub">Apni pasand chuniye</p></div>
+                <div class="opt-grid" id="other-grid"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- YouTube API PEHLE, phir vibe.js -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="vibe.js"></script>
+</body>
+</html>

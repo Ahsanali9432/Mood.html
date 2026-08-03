@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MoodVibe - Sign Up</title>
+    <link rel="stylesheet" href="Signup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+    
+
+
+    <h3><div class="logo-icon"><img src="logo.jpg.png" alt="" class="logo1"></div> MoodVibe</h3>
+ <div class="headphone"><div class="shape shape1"><img src="music.jpg.png" alt="" class="head"></div></div>
+  <div class="music"><div class="shape shape2"><img src="music.2jpg.png" alt="" class="ring"></div></div>
+  <div class="star"><div class="shape shape3"><img src="sta.jpg.png" alt="" class="sta1"></div></div>
+  <div class="shape shape4"><img src="sta.jpg.png" alt="" class="sta2"></div>
+  <div class="shape shape5"><img src="sta.jpg.png" alt="" class="sta3"></div>
+  <div class="shape shape6" ><img src="sta.jpg.png" alt="" class="sta4"></div>
+  <div class="shape shape7"><img src="sta.jpg.png" alt="" class="sta5"></div>
+  <div class="shape shape8"><img src="sta.jpg.png" alt="" class="sta6"></div>
+  <div class="shape shape8"><img src="" alt="" class="sta7"></div>
+
+    <div class="main">
+        <div class="form-box">
+
+            <h2>Create Your Account</h2>
+            <p>Sign up to start discovering mood-based playlists</p>
+
+            <!-- Error Message -->
+            <div id="signup-error" style="display:none; background:#ffe5e5; color:#c0392b; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:12px;"></div>
+
+            <div class="row">
+                <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="firstName" placeholder="First Name">
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="lastName" placeholder="Last Name">
+                </div>
+            </div>
+
+            <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="signupEmail" placeholder="Email Address">
+            </div>
+
+            <div class="row">
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPass" placeholder="Password">
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmPass" placeholder="Confirm Password">
+                </div>
+            </div>
+
+            <button type="button" onclick="doSignup()">Sign Up</button>
+
+            <div class="divider"><span>or</span></div>
+
+            <div id="googleSignUpDiv" style="display:flex; justify-content:center; margin-top:6px;"></div>
+
+            <p class="login-text">
+                Already have an account? <a class="login-link" href="Login.html">Log In</a>
+            </p>
+
+        </div>
+    </div>
+
+    <script>
+        var GOOGLE_CLIENT_ID = "429866376026-2ptrjoi5ar06n662vhrvek2oddu78rte.apps.googleusercontent.com";
+
+        // Agar pehle se logged in hai to seedha Mood.html bhejo
+        window.onload = function() {
+            if (localStorage.getItem('mv_loggedIn') === 'true') {
+                window.location.href = 'Mood.html';
+                return;
+            }
+
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleResponse
+                });
+
+                google.accounts.id.renderButton(
+                    document.getElementById("googleSignUpDiv"),
+                    { theme: "outline", size: "large", width: 300, text: "signup_with" }
+                );
+            }
+        };
+
+        function handleGoogleResponse(response) {
+            var payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+
+            var userData = {
+                name:     payload.name,
+                email:    payload.email,
+                password: null,
+                picture:  payload.picture,
+                provider: 'google'
+            };
+
+            localStorage.setItem('mv_user', JSON.stringify(userData));
+            localStorage.setItem('mv_loggedIn', 'true');
+            localStorage.setItem('mv_currentUser', userData.name);
+
+            window.location.href = 'Mood.html';
+        }
+
+        function doSignup() {
+            var firstName = document.getElementById('firstName').value.trim();
+            var lastName  = document.getElementById('lastName').value.trim();
+            var email     = document.getElementById('signupEmail').value.trim();
+            var pass      = document.getElementById('signupPass').value;
+            var confirm   = document.getElementById('confirmPass').value;
+
+            // Validation
+            if (!firstName)                      { showErr('First Name likhein!'); return; }
+            if (!lastName)                       { showErr('Last Name likhein!'); return; }
+            if (!email || !email.includes('@'))  { showErr('Sahi Email likhein!'); return; }
+            if (pass.length < 4)                 { showErr('Password kam az kam 4 characters ka ho!'); return; }
+            if (pass !== confirm)                { showErr('Dono passwords match nahi karte!'); return; }
+
+            // Local Storage mein save karo
+            var userData = {
+                name:     firstName + ' ' + lastName,
+                email:    email,
+                password: pass
+            };
+            localStorage.setItem('mv_user', JSON.stringify(userData));
+
+            // Sign up ke baad Login page par bhejo
+            window.location.href = 'Login.html';
+        }
+
+        function showErr(msg) {
+            var errBox = document.getElementById('signup-error');
+            errBox.textContent = msg;
+            errBox.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

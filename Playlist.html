@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoodVibe — Happy Vibes Playlist</title>
+<link rel="stylesheet" href="playlist.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+.fav-heart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 4px 6px;
+    transition: transform 0.2s;
+    color: #ccc;
+    flex-shrink: 0;
+}
+.fav-heart-btn:hover { transform: scale(1.25); }
+.fav-heart-btn.active { color: #e74c3c; }
+
+#fav-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2e7d71;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 9999;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    pointer-events: none;
+    display: none;
+}
+.back-link {
+    text-decoration: none;
+    color: #315b5a;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s;
+}
+.back-link:hover { opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<div id="fav-toast"></div>
+
+<div class="container">
+
+    <nav>
+        <div class="logo">
+            <h2>MoodVibe</h2>
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="right-nav">
+            <a class="back-link" href="Mood.html">← Back to Dashboard</a>
+            <div class="profile">
+                <img src="https://i.pravatar.cc/50">
+                <span id="nav-username">Good Evening</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+
+        <!-- Left -->
+        <div class="left">
+            <div class="playlist-card">
+                <img src="image 1.png"
+                     onerror="this.src='https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400'">
+                <div class="overlay">
+                    <h1>Happy Vibes</h1>
+                    <p>Upbeat pop songs to boost your mood.</p>
+                </div>
+            </div>
+
+            <div class="video-box">
+                <img src="image 2.png"
+                     onerror="this.src='https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400'"
+                     style="width:100%;height:400px;border-radius:15px;object-fit:cover;">
+                <div class="overlay1">
+                    <h1>Sad Vibe</h1>
+                    <p>Upbeat pop songs to boost your mood.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right -->
+        <div class="right">
+
+            <h1>Happy Vibes</h1>
+            <p>Upbeat pop songs to boost your mood.</p>
+
+            <div class="songs">
+
+                <div class="song active">
+                    <div class="num">1</div>
+                    <div class="info">
+                        <h3>Song Title 1</h3>
+                        <span>Artist Name 1</span>
+                    </div>
+                    <div class="icons">
+                        <i class="fas fa-headphones"></i>
+                        <i class="fas fa-ellipsis-h"></i>
+                        <i class="fas fa-bars"></i>
+                        <button class="fav-heart-btn" id="fav-1"
+                            onclick="toggleFav(this,'Song Title 1','Artist Name 1','🎵')"
+                            title="Favorite mein add karo">&#9825;</button>
+                    </div>
+                </div>
+
+                <div class="song">
+                    <div class="num">2</div>
+                    <div class="info">
+                        <h3>Song Title 2</h3>
+                        <span>Artist Name 2</span>
+                    </div>
+                    <div class="icons">
+                        <i class="fas fa-headphones"></i>
+                        <i class="fas fa-ellipsis-h"></i>
+                        <i class="fas fa-bars"></i>
+                        <button class="fav-heart-btn" id="fav-2"
+                            onclick="toggleFav(this,'Song Title 2','Artist Name 2','🎶')"
+                            title="Favorite mein add karo">&#9825;</button>
+                    </div>
+                </div>
+
+                <div class="song">
+                    <div class="num">3</div>
+                    <div class="info">
+                        <h3>Song Title 3</h3>
+                        <span>Artist Name 3</span>
+                    </div>
+                    <div class="icons">
+                        <i class="fas fa-headphones"></i>
+                        <i class="fas fa-ellipsis-h"></i>
+                        <i class="fas fa-bars"></i>
+                        <button class="fav-heart-btn" id="fav-3"
+                            onclick="toggleFav(this,'Song Title 3','Artist Name 3','🎵')"
+                            title="Favorite mein add karo">&#9825;</button>
+                    </div>
+                </div>
+
+                <div class="song">
+                    <div class="num">4</div>
+                    <div class="info">
+                        <h3>Song Title 4</h3>
+                        <span>Artist Name 4</span>
+                    </div>
+                    <div class="icons">
+                        <i class="fas fa-headphones"></i>
+                        <i class="fas fa-ellipsis-h"></i>
+                        <i class="fas fa-bars"></i>
+                        <button class="fav-heart-btn" id="fav-4"
+                            onclick="toggleFav(this,'Song Title 4','Artist Name 4','🎶')"
+                            title="Favorite mein add karo">&#9825;</button>
+                    </div>
+                </div>
+
+                <div class="song">
+                    <div class="num">5</div>
+                    <div class="info">
+                        <h3>Song Title 5</h3>
+                        <span>Artist Name 5</span>
+                    </div>
+                    <div class="icons">
+                        <i class="fas fa-headphones"></i>
+                        <i class="fas fa-ellipsis-h"></i>
+                        <i class="fas fa-bars"></i>
+                        <button class="fav-heart-btn" id="fav-5"
+                            onclick="toggleFav(this,'Song Title 5','Artist Name 5','🎵')"
+                            title="Favorite mein add karo">&#9825;</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="player">
+                <button>
+                    <i class="fas fa-play"></i>
+                </button>
+                <h3>Playlist Title</h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="playlist.js"></script>
+</body>
+</html>

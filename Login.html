@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MoodVibe - Login</title>
+  <link rel="stylesheet" href="Login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <h2><div class="logo-icon"><img  src="logo.jpg.png" alt="" class="logo1"></div> MoodVibe</h2>
+
+  <div class="headphone"><div class="shape shape1"><img src="music.jpg.png" alt="" class="head"></div></div>
+  <div class="music"><div class="shape shape2"><img src="music.2jpg.png" alt="" class="ring"></div></div>
+  <div class="star"><div class="shape shape3"><img src="sta.jpg.png" alt="" class="sta1"></div></div>
+  <div class="shape shape4"><img src="sta.jpg.png" alt="" class="sta2"></div>
+  <div class="shape shape5"><img src="sta.jpg.png" alt="" class="sta3"></div>
+  <div class="shape shape6" ><img src="sta.jpg.png" alt="" class="sta4"></div>
+  <div class="shape shape7"><img src="sta.jpg.png" alt="" class="sta5"></div>
+  <div class="shape shape8"><img src="sta.jpg.png" alt="" class="sta6"></div>
+  <div class="shape shape8"><img src="" alt="" class="sta7"></div>
+
+  <div class="container">
+    <h1>Welcome Back!</h1>
+    <p>Log in to continue</p>
+
+    <!-- Error Message -->
+    <div id="login-error" style="display:none; background:#ffe5e5; color:#c0392b; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:12px;"></div>
+
+    <!-- Email -->
+    <div class="input-box">
+      <i class="fa fa-user"></i>
+      <input type="email" id="loginEmail" placeholder="Email Address">
+    </div>
+
+    <!-- Password -->
+    <div class="input-box">
+      <i class="fa fa-lock"></i>
+      <input type="password" id="loginPass" placeholder="Password">
+      <i class="fa fa-eye toggle" onclick="togglePassword(this)"></i>
+    </div>
+
+    <br>
+
+    <div class="remember">
+      <label><input class="Remember" type="checkbox"> Remember me</label>
+      <a class="forget" href="#">Forget Password?</a>
+    </div>
+
+    <div class="log">
+      <button type="button" class="btn" onclick="doLogin()">Log In</button>
+    </div>
+
+    <div class="divider" style="display:flex;align-items:center;text-align:center;margin:18px 0;">
+      <span style="margin:0 auto;color:#777;font-size:13px;">or</span>
+    </div>
+    <div id="googleLoginDiv" style="display:flex; justify-content:center; margin-top:6px;"></div>
+
+    <div class="Register-link">
+      <p>Don't have an account? <a class="sign" href="Signup.html">Sign Up</a></p>
+    </div>
+
+  </div>
+
+  <script>
+    var GOOGLE_CLIENT_ID = "429866376026-2ptrjoi5ar06n662vhrvek2oddu78rte.apps.googleusercontent.com";
+
+    // Agar pehle se logged in hai to seedha Mood.html bhejo
+    window.onload = function() {
+      if (localStorage.getItem('mv_loggedIn') === 'true') {
+        window.location.href = 'Mood.html';
+        return;
+      }
+
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleLogin
+        });
+
+        google.accounts.id.renderButton(
+          document.getElementById("googleLoginDiv"),
+          { theme: "outline", size: "large", width: 300, text: "signin_with" }
+        );
+      }
+    };
+
+    function handleGoogleLogin(response) {
+      var payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+
+      localStorage.setItem('mv_user', JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        password: null,
+        picture: payload.picture,
+        provider: 'google'
+      }));
+      localStorage.setItem('mv_loggedIn', 'true');
+      localStorage.setItem('mv_currentUser', payload.name);
+
+      window.location.href = 'Mood.html';
+    }
+
+    function togglePassword(icon) {
+      var input = icon.previousElementSibling;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    function doLogin() {
+      var email  = document.getElementById('loginEmail').value.trim();
+      var pass   = document.getElementById('loginPass').value;
+
+      // Validation
+      if (!email) { showErr('Email likhein!'); return; }
+      if (!pass)  { showErr('Password likhein!'); return; }
+
+      // Local Storage se user data lo
+      var stored = localStorage.getItem('mv_user');
+      if (!stored) { showErr('Pehle Sign Up karo!'); return; }
+
+      var user = JSON.parse(stored);
+
+      // Email aur password check karo
+      if (user.email !== email)    { showErr('Email galat hai!'); return; }
+      if (user.password !== pass)  { showErr('Password galat hai!'); return; }
+
+      // Login success — session save karo
+      localStorage.setItem('mv_loggedIn', 'true');
+      localStorage.setItem('mv_currentUser', user.name);
+
+      // Home page par bhejo
+      window.location.href = 'Mood.html';
+    }
+
+    function showErr(msg) {
+      var errBox = document.getElementById('login-error');
+      errBox.textContent = msg;
+      errBox.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
