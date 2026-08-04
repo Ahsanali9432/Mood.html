@@ -224,6 +224,7 @@ height: 450px;
         align-items: flex-start;
         padding: 90px 16px 40px;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     h2 {
@@ -238,7 +239,7 @@ height: 450px;
     }
 
     /* Shrink and reposition decorative shapes so they frame the card instead of covering it */
-    .head { height: 130px; }
+    .head { height: 220px; }
     .ring { height: 100px; }
     .sta1 { height: 30px; }
     .sta2 { height: 38px; }
@@ -247,14 +248,14 @@ height: 450px;
     .sta5 { height: 32px; }
     .sta6 { height: 20px; }
 
-    .headphone { left: -6%; top: auto; bottom: 2%; }
-    .music     { left: 1%; top: 8%; }
-    .star      { left: 16%; top: 55%; }
-    .shape4 { top: 4%;  right: 78%; }
-    .shape5 { top: 12%; right: 65%; }
-    .shape6 { top: 48%; right: 70%; }
-    .shape7 { top: 18%; right: 80%; }
-    .shape8 { top: 40%; right: 80%; }
+    .headphone { position: fixed; left: -10%; top: auto; bottom: -1%; z-index: 1; }
+    .music     { position: fixed; left: 1%; top: 8%; z-index: 1; }
+    .star      { position: fixed; left: 16%; top: 55%; z-index: 1; }
+    .shape4 { position: fixed; top: 4%;  right: 78%; z-index: 1; }
+    .shape5 { position: fixed; top: 12%; right: 65%; z-index: 1; }
+    .shape6 { position: fixed; top: 48%; right: 70%; z-index: 1; }
+    .shape7 { position: fixed; top: 18%; right: 80%; z-index: 1; }
+    .shape8 { position: fixed; top: 40%; right: 80%; z-index: 1; }
 
     .container {
         position: relative;
