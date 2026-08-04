@@ -1143,6 +1143,26 @@ body.dark-mode .snp-art   { background: #2a4a48; }
         order: 0;
     }
     .mobile-hamburger:hover { background: #1a5a50; }
+
+    /* ===== Mobile Settings icon — direct one-tap access, taake
+       Settings ko poora hamburger menu khole bina dekha ja sake ===== */
+    .mobile-settings-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: rgba(46,125,113,0.12);
+        color: #1a4a48;
+        border: none;
+        font-size: 15px;
+        cursor: pointer;
+        flex-shrink: 0;
+        order: 0;
+    }
+    .mobile-settings-btn:hover { background: rgba(46,125,113,0.22); }
+    body.dark-mode .mobile-settings-btn { background: rgba(160,216,208,0.12); color: #a0d8d0; }
     .sidebar .hamburger { display: none; } /* desktop wala hamburger mobile par hide */
 
     /* ===== SIDEBAR -> mobile par ye poori-screen (fullscreen) overlay
@@ -1242,7 +1262,19 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     .grid { grid-template-columns: 1fr; }
     .grid-col-trending, .grid-col-latest { grid-column: 1; grid-row: auto; }
     .grid-col-toppicks { grid-column: 1; grid-row: auto; }
-    .now-playing-mini-card { grid-column: 1; grid-row: auto; }
+    .now-playing-mini-card {
+        grid-column: 1;
+        grid-row: auto;
+        min-height: auto;
+        padding: 10px 12px;
+        gap: 10px;
+    }
+    .now-playing-mini-card .npm-art { width: 44px; height: 44px; }
+    .now-playing-mini-card .npm-title { font-size: 12px; }
+    .now-playing-mini-card .npm-channel { font-size: 10px; margin-bottom: 4px; }
+    .now-playing-mini-card .npm-right { gap: 3px; }
+    .now-playing-mini-card .npm-btn { width: 24px; height: 24px; font-size: 10px; }
+    .now-playing-mini-card .npm-btn-play { width: 30px; height: 30px; font-size: 12px; }
 
     /* Safety net: koi bhi element galti se viewport se bahar na jaaye
        aur poori page ko sideways scroll na kare — sirf designated
@@ -1262,7 +1294,18 @@ body.dark-mode .snp-art   { background: #2a4a48; }
         padding-bottom: 4px;
     }
     .playlist::-webkit-scrollbar { display: none; }
-    .playlist.vertical { flex-wrap: wrap; overflow-x: visible; }
+    .playlist.vertical {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+    .playlist.vertical::-webkit-scrollbar { display: none; }
+    .playlist.vertical .box.big {
+        flex: 0 0 78%;
+        min-width: 220px;
+    }
 
     .mood-grid { grid-template-columns: repeat(2, 1fr); }
     .genre-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1270,7 +1313,9 @@ body.dark-mode .snp-art   { background: #2a4a48; }
 
     .artists-full-grid { grid-template-columns: repeat(2, 1fr); }
 
-    /* Favorites: right-side playlist rows shrink a bit for small screens */
+    /* Favorites: mobile par sirf "Your Favorite Playlists" list dikhti
+       hai — upar wale bade hero-cards mobile par hide kar diye */
+    .fav-left { display: none; }
     .fav-player-thumb { width: 64px; height: 64px; }
     .fav-player-info h3 { font-size: 15px; }
 
@@ -1305,7 +1350,7 @@ body.dark-mode .snp-art   { background: #2a4a48; }
 }
 
 @media (min-width: 769px) {
-    .mobile-hamburger, .mobile-sidebar-close, .bottom-nav { display: none; }
+    .mobile-hamburger, .mobile-settings-btn, .mobile-sidebar-close, .bottom-nav { display: none; }
 }
 
 @media (max-width: 420px) {
