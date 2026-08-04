@@ -340,6 +340,8 @@ h3 { font-size: 14px; font-weight: 700; color: #1a3a38; margin: 12px 0 6px; }
     grid-column: 3;
     grid-row: 1 / 3;
 }
+.grid-col-trending { grid-column: 1; grid-row: 1; }
+.grid-col-latest   { grid-column: 2; grid-row: 1; }
 
 .playlist { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .playlist img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; transition: transform 0.2s; cursor: pointer; display: block; }
@@ -1234,11 +1236,24 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     .tags::-webkit-scrollbar { display: none; }
     .tags-genre span { padding: 9px 16px; font-size: 13px; }
 
-    /* Home trending/latest rows: horizontal scroll instead of stacking,
-       matching Spotify's "Trending songs" row */
+    /* Home trending/latest rows: dono ek column mein STACK hote hain
+       (Trending upar, Latest neeche) — har row khud horizontal-scroll
+       karti hai, poori page nahi */
     .grid { grid-template-columns: 1fr; }
+    .grid-col-trending, .grid-col-latest { grid-column: 1; grid-row: auto; }
     .grid-col-toppicks { grid-column: 1; grid-row: auto; }
     .now-playing-mini-card { grid-column: 1; grid-row: auto; }
+
+    /* Safety net: koi bhi element galti se viewport se bahar na jaaye
+       aur poori page ko sideways scroll na kare — sirf designated
+       rows (.tags, .playlist, .moods) apne andar hi scroll karengi */
+    body, .pages { overflow-x: hidden; }
+
+    /* Song thumbnails mobile par bade taake behtar dikhein */
+    .playlist img, .thumb-wrap, .thumb-wrap img, .other-thumb {
+        width: 92px;
+        height: 92px;
+    }
 
     .playlist {
         flex-wrap: nowrap;
