@@ -7,12 +7,13 @@ var settingsOpen    = false;
 // ===== SIDEBAR PAGE NAVIGATION =====
 function showPage(name, el) {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
     document.getElementById('page-' + name).classList.add('show');
     el.classList.add('active');
     lastSidebarPage = name;
     lastSidebarEl   = el;
     if (name === 'favorites') { renderFavoritesPage(); renderFavoritesHero(); }
+    if (window.innerWidth <= 768 && sidebarOpen) { toggleSidebar(); }
 }
 
 // ===== HAMBURGER =====
@@ -336,7 +337,7 @@ function performGlobalSearch(query) {
     var token = ++searchLoadToken;
 
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
     document.getElementById('page-search').classList.add('show');
     closeAllHeaderControls();
 
@@ -1251,7 +1252,7 @@ var dedicatedPages = ['happy', 'sad', 'romantic', 'energetic', 'sleep', 'lofi'];
 
 function showMood(mood) {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
 
     if (dedicatedPages.indexOf(mood) !== -1) {
         document.getElementById('page-mood-' + mood).classList.add('show');
@@ -1280,7 +1281,7 @@ function goBack() {
         return;
     }
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
     document.getElementById('page-' + lastSidebarPage).classList.add('show');
     if (lastSidebarEl) lastSidebarEl.classList.add('active');
     else document.querySelector('.sidebar li').classList.add('active');
@@ -1599,7 +1600,7 @@ var otherPageData = {
 
 function openOtherPage(section) {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
     var data = otherPageData[section];
     document.getElementById('other-title').textContent = data.title;
     document.getElementById('other-sub').textContent   = data.sub;
@@ -1620,7 +1621,7 @@ function openOtherPage(section) {
 
 function closeOtherPage() {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
     document.getElementById('page-' + lastSidebarPage).classList.add('show');
     if (lastSidebarEl) lastSidebarEl.classList.add('active');
     else document.querySelector('.sidebar li').classList.add('active');
@@ -2223,9 +2224,10 @@ function goBackToArtists() {
     document.getElementById('page-artists').classList.add('show');
 }
 
-function openArtistsPage() {
+function openArtistsPage(el) {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('show'); });
-    document.querySelectorAll('.sidebar li').forEach(function(li) { li.classList.remove('active'); });
+    document.querySelectorAll('.sidebar li, .bottom-nav-btn').forEach(function(li) { li.classList.remove('active'); });
+    if (el) el.classList.add('active');
 
     var grid = document.getElementById('artists-full-grid');
     if (grid) {
@@ -2243,6 +2245,7 @@ function openArtistsPage() {
     }
 
     document.getElementById('page-artists').classList.add('show');
+    if (window.innerWidth <= 768 && sidebarOpen) { toggleSidebar(); }
 }
 
 // =====================================================================
