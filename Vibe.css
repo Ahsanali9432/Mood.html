@@ -1113,40 +1113,93 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     max-width:260px;
 }
 
-/* 
+/* =====================================================================
    MOBILE RESPONSIVE FIXES
    Sidebar mobile par overlay (drawer) ki tarah kaam karega, aur
    home page ke saare grids/columns chhoti screen par stack ho jaayenge.
-*/
+   ===================================================================== */
 @media (max-width: 768px) {
 
     .container { flex-direction: column; }
 
-    /* Sidebar: chhoti screen par ye ek fixed overlay drawer ban jaata hai
-       taake ye main content ko squeeze na kare */
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 210px;
-        padding: 20px;
-        z-index: 1000;
-        transition: transform 0.3s ease, width 0.3s ease, padding 0.3s ease;
-        box-shadow: 6px 0 24px rgba(0,0,0,0.25);
+    /* ===== Mobile hamburger button (topbar) — sirf mobile par visible,
+       sidebar ke andar wala hamburger yahan kaam nahi karta kyunki
+       sidebar khud hi mobile par by-default hidden hai ===== */
+    .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: #2e7d71;
+        color: white;
+        border: none;
+        font-size: 15px;
+        cursor: pointer;
+        flex-shrink: 0;
+        order: 0;
     }
-    .sidebar.collapsed {
-        width: 62px;
-        padding: 16px 10px;
-        transform: translateX(0);
-    }
+    .mobile-hamburger:hover { background: #1a5a50; }
+    .sidebar .hamburger { display: none; } /* desktop wala hamburger mobile par hide */
 
-    .main { width: 100%; margin-left: 0; }
+    /* ===== SIDEBAR -> mobile par ye poori-screen (fullscreen) overlay
+       menu ban jaata hai, jaisa Spotify ka hamburger menu ===== */
+    .sidebar.collapsed {
+        display: none; /* default state: bilkul hidden, koi icon-rail nahi */
+    }
+    .sidebar:not(.collapsed) {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3000;
+        padding: 70px 28px 28px;
+        background: #0d211f;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        box-shadow: none;
+    }
+    .sidebar:not(.collapsed) .logo { display: none; }
+    .sidebar:not(.collapsed) ul li {
+        color: #ffffff;
+        font-size: 19px;
+        padding: 16px 8px;
+        margin: 4px 0;
+    }
+    .sidebar:not(.collapsed) ul li.active { background: rgba(255,255,255,0.12); }
+    .sidebar:not(.collapsed) ul li:hover { background: rgba(255,255,255,0.08); }
+    .sidebar:not(.collapsed) .settings-btn {
+        color: #ffffff;
+        background: rgba(255,255,255,0.08);
+        font-size: 16px;
+    }
+    .mobile-sidebar-close {
+        display: none;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255,255,255,0.12);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 3001;
+    }
+    .sidebar:not(.collapsed) .mobile-sidebar-close { display: flex; align-items: center; justify-content: center; }
+
+    /* No permanent icon rail anymore, so main content takes full width;
+       bottom padding leaves room for the fixed bottom nav bar */
+    .main { width: 100%; margin-left: 0; padding-bottom: 74px; }
 
     .topbar {
         flex-wrap: wrap;
-        padding: 10px 14px 10px 60px; /* space for hamburger icon */
-        gap: 8px;
+        padding: 10px 14px;
+        gap: 10px;
     }
     .topbar-logo { order: 1; }
     .topbar-btns { order: 2; margin-left: auto; }
@@ -1157,18 +1210,44 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     h1 { font-size: 20px; }
     .mood-detail-header h1 { font-size: 19px; }
 
-    /* Home mood cards: chhote grid mein wrap ho jaate hain */
-    .moods { flex-wrap: wrap; }
-    .card { flex: 1 1 28%; min-width: 95px; }
+    /* ===== Home mood cards: ab horizontal scroll (Spotify style) —
+       finger se right swipe karke aage ke moods dikhte hain ===== */
+    .moods {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 4px;
+        gap: 10px;
+    }
+    .moods::-webkit-scrollbar { display: none; }
+    .card {
+        flex: 0 0 40%;
+        min-width: 130px;
+        scroll-snap-align: start;
+    }
 
-    /* Two-column sections (Mood Based / Genre) stack vertically */
+    /* Two-column sections (Mood Based / Genre) stack vertically,
+       tags row bhi horizontal-scroll ho sakti hai */
     .two-col { grid-template-columns: 1fr; }
+    .tags { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+    .tags::-webkit-scrollbar { display: none; }
     .tags-genre span { padding: 9px 16px; font-size: 13px; }
 
-    /* Home trending/latest/top-picks grid stacks into a single column */
+    /* Home trending/latest rows: horizontal scroll instead of stacking,
+       matching Spotify's "Trending songs" row */
     .grid { grid-template-columns: 1fr; }
     .grid-col-toppicks { grid-column: 1; grid-row: auto; }
     .now-playing-mini-card { grid-column: 1; grid-row: auto; }
+
+    .playlist {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+    .playlist::-webkit-scrollbar { display: none; }
+    .playlist.vertical { flex-wrap: wrap; overflow-x: visible; }
 
     .mood-grid { grid-template-columns: repeat(2, 1fr); }
     .genre-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1179,12 +1258,47 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     /* Favorites: right-side playlist rows shrink a bit for small screens */
     .fav-player-thumb { width: 64px; height: 64px; }
     .fav-player-info h3 { font-size: 15px; }
+
+    /* ===== BOTTOM NAVIGATION BAR (Spotify-style) ===== */
+    .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2000;
+        background: linear-gradient(to top, #16332f, #1c433d);
+        box-shadow: 0 -4px 18px rgba(0,0,0,0.25);
+        padding: 8px 4px 10px;
+    }
+    .bottom-nav-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.65);
+        font-size: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 2px;
+    }
+    .bottom-nav-btn i { font-size: 17px; }
+    .bottom-nav-btn.active { color: #ffffff; }
+}
+
+@media (min-width: 769px) {
+    .mobile-hamburger, .mobile-sidebar-close, .bottom-nav { display: none; }
 }
 
 @media (max-width: 420px) {
-    .card { flex: 1 1 45%; }
+    .card { flex: 0 0 46%; min-width: 115px; }
     .mood-grid, .genre-grid, .opt-grid { grid-template-columns: 1fr; }
     .topbar input { font-size: 13px; }
     .fav-player { padding: 10px 12px; gap: 10px; }
     .fav-player-thumb { width: 54px; height: 54px; }
+    .bottom-nav-btn { font-size: 9px; }
+    .bottom-nav-btn i { font-size: 15px; }
 }
