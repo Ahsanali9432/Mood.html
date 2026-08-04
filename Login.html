@@ -70,7 +70,7 @@
     // Agar pehle se logged in hai to seedha Mood.html bhejo
     window.onload = function() {
       if (localStorage.getItem('mv_loggedIn') === 'true') {
-        window.location.href = 'Mood.html';
+        window.location.href = 'index.html';
         return;
       }
 
@@ -100,7 +100,7 @@
       localStorage.setItem('mv_loggedIn', 'true');
       localStorage.setItem('mv_currentUser', payload.name);
 
-      window.location.href = 'Mood.html';
+      window.location.href = 'index.html';
     }
 
     function togglePassword(icon) {
@@ -137,7 +137,7 @@
       localStorage.setItem('mv_currentUser', user.name);
 
       // Home page par bhejo
-      window.location.href = 'Mood.html';
+      window.location.href = 'index.html';
     }
 
     function showErr(msg) {
