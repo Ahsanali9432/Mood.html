@@ -303,6 +303,10 @@ button:hover {
         gap: 0;
     }
 
+    .input-box {
+        margin: 10px 0;
+    }
+
     .input-box input {
         font-size: 15px;
         padding: 10px 12px 10px 32px;
