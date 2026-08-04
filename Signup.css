@@ -7,17 +7,13 @@
 
 body {
     display: flex;
-     background: linear-gradient(to right,#7fb8b3,#cfdedd);
+    background: linear-gradient(to right,#7fb8b3,#cfdedd);
     background-image: url(mood.jpg5.jpeg);
     background-size: cover;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    font-family: Arial,  sans-serif;* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    font-family: Arial, sans-serif;
 }
 
 /* ===== HEADING ===== */
@@ -236,4 +232,83 @@ button:hover {
 
 .login-link:hover {
     text-decoration: underline;
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE FIX
+   ========================================================= */
+@media (max-width: 600px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+        padding: 90px 16px 40px;
+        overflow-y: auto;
+    }
+
+    h3 {
+        top: 20px;
+        font-size: 22px;
+    }
+
+    .logo-icon,
+    .logo1 {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Shrink and reposition decorative shapes so they frame the card instead of covering it */
+    .head { height: 130px; }
+    .ring { height: 100px; }
+    .sta1 { height: 26px; }
+    .sta2 { height: 38px; }
+    .sta3 { height: 24px; }
+    .sta4 { height: 24px; }
+    .sta5 { height: 32px; }
+    .sta6 { height: 20px; }
+
+    .headphone { left: -6%; top: auto; bottom: 2%; }
+    .music     { left: 1%; top: 8%; }
+    .star      { left: 16%; top: 55%; }
+    .shape4 { top: 4%;  right: 78%; }
+    .shape5 { top: 12%; right: 65%; }
+    .shape6 { top: 48%; right: 70%; }
+    .shape7 { top: 18%; right: 80%; }
+    .shape8 { top: 40%; right: 80%; }
+
+    .main {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+    }
+
+    .form-box {
+        width: 100%;
+        padding: 26px 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .input-box input {
+        font-size: 15px;
+        padding: 10px 12px 10px 32px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
 }
