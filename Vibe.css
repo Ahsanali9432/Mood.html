@@ -489,8 +489,6 @@ body.dark-mode .now-playing-label { color: #a0d8d0 !important; }
 body.dark-mode .now-playing-thumb { background: #2a4a48; }
 body.dark-mode .playlist-title { color: #6a9a90 !important; }
 
-.sidebar li i { width: 18px; flex-shrink: 0; }
-
 /* ===== HEADER OVERLAY CONTROLS ===== */
 .header-icon-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 50%; transition: background 0.2s; }
 .header-icon-wrap:hover { background: rgba(255, 255, 255, 0.15); }
@@ -783,44 +781,6 @@ body.dark-mode .npm-time-row { color: #4a7a70; }
     .artist-img-wrap { width: 90px; height: 90px; }
 }
 
-/* ===== ARTIST DETAIL HEADER ===== */
-.artist-detail-hero {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    text-align: left;
-}
-.artist-detail-img {
-    width: 90px;
-    height: 90px;
-    border-radius: 14px;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: #b0ddd8;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
-.artist-detail-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-}
-.artist-detail-info { flex: 1; }
-.artist-detail-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.25);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 12px;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-.artist-detail-info h1 { color: white !important; font-size: 20px; margin-bottom: 4px; }
-.artist-detail-info p { color: rgba(255,255,255,0.85) !important; font-size: 13px; }
-
 body.dark-mode .artists-title { color: #a0d8d0 !important; }
 body.dark-mode .artist-name { color: #a0d8d0; }
 body.dark-mode .artist-img-wrap { background: #2a4a48; }
@@ -829,6 +789,7 @@ body.dark-mode .artist-img-wrap { background: #2a4a48; }
     background: linear-gradient(135deg, #2e7d71, #1a5a50);
 }
 
+/* ===== ARTIST DETAIL HEADER ===== */
 .artist-detail-hero {
     display: flex;
     align-items: center;
@@ -1150,4 +1111,80 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     font-size:13px;
     line-height:1.6;
     max-width:260px;
+}
+
+/* 
+   MOBILE RESPONSIVE FIXES
+   Sidebar mobile par overlay (drawer) ki tarah kaam karega, aur
+   home page ke saare grids/columns chhoti screen par stack ho jaayenge.
+*/
+@media (max-width: 768px) {
+
+    .container { flex-direction: column; }
+
+    /* Sidebar: chhoti screen par ye ek fixed overlay drawer ban jaata hai
+       taake ye main content ko squeeze na kare */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 210px;
+        padding: 20px;
+        z-index: 1000;
+        transition: transform 0.3s ease, width 0.3s ease, padding 0.3s ease;
+        box-shadow: 6px 0 24px rgba(0,0,0,0.25);
+    }
+    .sidebar.collapsed {
+        width: 62px;
+        padding: 16px 10px;
+        transform: translateX(0);
+    }
+
+    .main { width: 100%; margin-left: 0; }
+
+    .topbar {
+        flex-wrap: wrap;
+        padding: 10px 14px 10px 60px; /* space for hamburger icon */
+        gap: 8px;
+    }
+    .topbar-logo { order: 1; }
+    .topbar-btns { order: 2; margin-left: auto; }
+    .topbar input { order: 3; flex: 1 1 100%; }
+
+    .pages { padding: 14px; }
+
+    h1 { font-size: 20px; }
+    .mood-detail-header h1 { font-size: 19px; }
+
+    /* Home mood cards: chhote grid mein wrap ho jaate hain */
+    .moods { flex-wrap: wrap; }
+    .card { flex: 1 1 28%; min-width: 95px; }
+
+    /* Two-column sections (Mood Based / Genre) stack vertically */
+    .two-col { grid-template-columns: 1fr; }
+    .tags-genre span { padding: 9px 16px; font-size: 13px; }
+
+    /* Home trending/latest/top-picks grid stacks into a single column */
+    .grid { grid-template-columns: 1fr; }
+    .grid-col-toppicks { grid-column: 1; grid-row: auto; }
+    .now-playing-mini-card { grid-column: 1; grid-row: auto; }
+
+    .mood-grid { grid-template-columns: repeat(2, 1fr); }
+    .genre-grid { grid-template-columns: repeat(2, 1fr); }
+    .opt-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .artists-full-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Favorites: right-side playlist rows shrink a bit for small screens */
+    .fav-player-thumb { width: 64px; height: 64px; }
+    .fav-player-info h3 { font-size: 15px; }
+}
+
+@media (max-width: 420px) {
+    .card { flex: 1 1 45%; }
+    .mood-grid, .genre-grid, .opt-grid { grid-template-columns: 1fr; }
+    .topbar input { font-size: 13px; }
+    .fav-player { padding: 10px 12px; gap: 10px; }
+    .fav-player-thumb { width: 54px; height: 54px; }
 }
