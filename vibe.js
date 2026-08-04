@@ -399,32 +399,6 @@ function _searchAllSongs(query, callback) {
         .catch(function() { callback([]); });
 }
 
-function _checkEmbeddableStatus(songs, callback) {
-    if (!songs.length) { callback([]); return; }
-    var ids = songs.map(function(s) { return s.videoId; }).join(',');
-    var url = 'https://www.googleapis.com/youtube/v3/videos'
-        + '?part=status'
-        + '&id=' + encodeURIComponent(ids)
-        + '&key=' + encodeURIComponent(YT_API_KEY);
-
-    fetch(url)
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-            var statusMap = {};
-            (data.items || []).forEach(function(it) {
-                statusMap[it.id] = it.status && it.status.embeddable === true;
-            });
-            songs.forEach(function(s) {
-                s.ytOnly = (statusMap[s.videoId] === false || statusMap[s.videoId] === undefined);
-            });
-            callback(songs);
-        })
-        .catch(function() {
-            songs.forEach(function(s) { s.ytOnly = false; });
-            callback(songs);
-        });
-}
-
 function restoreSearchHeaderIcon() {
     var page = document.getElementById('page-search');
     if (!page) return;
@@ -459,7 +433,6 @@ function renderSearchSongList(songs) {
         var favKeys  = getFavSongIds();
         var songFavKey = 'search:' + s.videoId;
         var isFav    = favKeys.indexOf(songFavKey) !== -1;
-        var ytUrl    = 'https://www.youtube.com/watch?v=' + s.videoId;
 
         if (s.ytOnly) {
             return '<div class="song-item song-item--ytonly" data-index="' + i + '">'
@@ -542,7 +515,6 @@ function resolveMoodSongs(mood, onReady) {
 var ytPlayer    = null;
 var ytReady     = false;
 var pendingMood = null;
-var pendingSearchPlay = false;
 var currentPlaylistSongs = [];
 var moodLoadToken = 0;
 
@@ -574,8 +546,6 @@ function initYTPlayer() {
                 if (pendingMood) {
                     _loadMoodSongs(pendingMood);
                     pendingMood = null;
-                } else if (pendingSearchPlay) {
-                    pendingSearchPlay = false;
                 }
             },
             onStateChange: function(e) {
@@ -645,8 +615,6 @@ function initYTPlayer() {
     });
 }
 
-// ===== FIX APPLIED: favorites branch added so play/pause state also
-//       refreshes the individual-song favorites list correctly =====
 function _refreshCurrentSongList() {
     if (currentMood === 'search') {
         renderSearchSongList(currentPlaylistSongs);
@@ -712,7 +680,6 @@ function renderSongListForMood(mood, songs) {
         var favKeys = getFavSongIds();
         var songFavKey = mood + ':' + s.videoId;
         var isFav = favKeys.indexOf(songFavKey) !== -1;
-        var ytUrl = 'https://www.youtube.com/watch?v=' + s.videoId;
 
         if (s.ytOnly) {
             return '<div class="song-item song-item--ytonly" data-index="' + i + '">'
@@ -1854,6 +1821,15 @@ function doLogout() {
 }
 
 window.addEventListener('DOMContentLoaded', function () {
+    // Mobile par sidebar default compact/collapsed khule (jaise mobile apps mein
+    // hota hai), taake wo poori screen cover na kare. Hamburger se hamesha
+    // expand/collapse kiya ja sakta hai.
+    if (window.innerWidth <= 768) {
+        sidebarOpen = false;
+        var sb = document.getElementById('sidebar');
+        if (sb) sb.classList.add('collapsed');
+    }
+
     applyDark(isDark);
     applyLang(currentLang);
     buildArtistMoodMap();
@@ -2125,7 +2101,6 @@ function fetchArtistImage(artist, callback) {
         callback(artistImgCache[artist.key]);
         return;
     }
-    var url = 'https://api.deezer.com/search/artist?q=' + encodeURIComponent(artist.name) + '&limit=1&output=jsonp&callback=?';
     var cbName = 'deezerCb_' + artist.key;
     window[cbName] = function(data) {
         var img = null;
