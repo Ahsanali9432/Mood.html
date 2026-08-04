@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoodVibe</title>
 <link rel="stylesheet" href="Vibe.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -27,6 +25,7 @@
 
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
+        <button class="mobile-sidebar-close" onclick="toggleSidebar()" aria-label="Close menu">✕</button>
         <div class="logo">
             <button class="hamburger" onclick="toggleSidebar()">☰</button>
             <div class="logo-icon"><img class="log" src="logo.jpg.png" alt=""></div>
@@ -38,7 +37,7 @@
             <li onclick="showPage('genres',this)"><i class="fas fa-music"></i> <span>Genres</span></li>
             <li onclick="showPage('favorites',this)"><i class="fas fa-heart"></i> <span>Favorites</span></li>
             <li onclick="showPage('history',this)"><i class="fas fa-history"></i> <span>History</span></li>
-            <li onclick="openArtistsPage()"><i class="fas fa-microphone"></i> <span>Artists</span></li>
+            <li onclick="openArtistsPage(this)"><i class="fas fa-microphone"></i> <span>Artists</span></li>
         </ul>
 
         <div class="sidebar-bottom">
@@ -69,6 +68,7 @@
     <div class="main">
 
         <div class="topbar">
+            <button class="mobile-hamburger" onclick="toggleSidebar()" aria-label="Open menu"><i class="fas fa-bars"></i></button>
             <div class="topbar-logo">
                 <span>MoodVibe</span>
             </div>
@@ -132,7 +132,7 @@
                     </div>
                     <div class="section-box">
                         <h3 id="l-genre">Genre / Language</h3>
-                        <div class="tags tags-genre">
+                        <div class="tags">
                             <span onclick="showMood('punjabi')">🎤 Punjabi<i class="fav-heart fav-heart--inline" data-mood="punjabi" onclick="toggleFavMood(event,'punjabi')">♡</i></span>
                             <span onclick="showMood('hiphop')">🎧 Hip Hop<i class="fav-heart fav-heart--inline" data-mood="hiphop" onclick="toggleFavMood(event,'hiphop')">♡</i></span>
                             <span onclick="showMood('hollywood')">🎬 Hollywood<i class="fav-heart fav-heart--inline" data-mood="hollywood" onclick="toggleFavMood(event,'hollywood')">♡</i></span>
@@ -481,6 +481,9 @@
                     <div class="fav-right">
                         <h2 class="fav-right-title" id="l-favrighttitle">Your Favorite Playlists</h2>
                         <p class="fav-right-sub" id="l-favrightsub">Jo bhi ♡ se favorite kiya hai, wo yahan milega</p>
+                        <div id="fav-empty-state" style="display:none;">
+                            <p style="color:#567676; font-size:13px; padding:6px 0 14px;">Abhi tak koi favorite nahi. Kisi card, tag ya playlist ke ♡ button par click karke add karein.</p>
+                        </div>
                         <div class="fav-player-list" id="fav-player-list"></div>
                     </div>
                 </div>
@@ -625,6 +628,26 @@
 
         </div>
     </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION (mobile par hi dikhta hai) -->
+    <div class="bottom-nav" id="bottom-nav">
+        <button class="bottom-nav-btn active" onclick="showPage('home',this)">
+            <i class="fas fa-home"></i><span>Home</span>
+        </button>
+        <button class="bottom-nav-btn" onclick="showPage('moods',this)">
+            <i class="fas fa-smile"></i><span>Moods</span>
+        </button>
+        <button class="bottom-nav-btn" onclick="showPage('favorites',this)">
+            <i class="fas fa-heart"></i><span>Favorites</span>
+        </button>
+        <button class="bottom-nav-btn" onclick="showPage('history',this)">
+            <i class="fas fa-history"></i><span>History</span>
+        </button>
+        <button class="bottom-nav-btn" onclick="openArtistsPage(this)">
+            <i class="fas fa-microphone"></i><span>Artists</span>
+        </button>
+    </div>
+
 </div>
 
 <!-- YouTube API PEHLE, phir vibe.js -->
