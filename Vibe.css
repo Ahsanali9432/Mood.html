@@ -1362,3 +1362,89 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     .bottom-nav-btn { font-size: 9px; }
     .bottom-nav-btn i { font-size: 15px; }
 }
+
+/* =====================================================================
+   MOBILE SCROLL FIX (added) — forces horizontal scroll on tag rows,
+   trending/latest rows, and shrinks Top Mood Picks into compact
+   square cards like the Happy/Sad home cards. Desktop untouched:
+   everything below is inside @media (max-width: 768px).
+   ===================================================================== */
+@media (max-width: 768px) {
+
+    /* ---- Force horizontal scroll: Mood Based / Energy / Genre tags ---- */
+    .tags {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        width: 100%;
+        max-width: 100%;
+    }
+    .tags::-webkit-scrollbar { display: none; }
+    .tags span {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+    }
+
+    /* ---- Force horizontal scroll: Trending & Latest rows ---- */
+    #home-trending-row,
+    #home-latest-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        width: 100%;
+        max-width: 100%;
+    }
+    #home-trending-row::-webkit-scrollbar,
+    #home-latest-row::-webkit-scrollbar { display: none; }
+    #home-trending-row .thumb-wrap,
+    #home-latest-row .thumb-wrap,
+    #home-trending-row .other-thumb,
+    #home-latest-row .other-thumb {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+    }
+
+    /* ---- Top Mood Picks: shrink into compact square cards (like the
+       Happy/Sad home cards) instead of big horizontal bars, and make
+       the row itself horizontally scrollable ---- */
+    .playlist.vertical {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        gap: 10px;
+        width: 100%;
+        max-width: 100%;
+    }
+    .playlist.vertical::-webkit-scrollbar { display: none; }
+
+    .playlist.vertical .box.big {
+        flex: 0 0 92px;
+        min-width: 92px;
+        width: 92px;
+        height: 92px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        line-height: 1.25;
+        padding: 8px 6px;
+        border-radius: 16px;
+        white-space: normal;
+        text-align: center;
+        scroll-snap-align: start;
+    }
+    .playlist.vertical .box.big .fav-heart--corner-sm {
+        top: 4px;
+        right: 4px;
+    }
+    .playlist.vertical .pick-other.box.big {
+        font-size: 11px;
+    }
+}
