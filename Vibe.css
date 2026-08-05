@@ -314,6 +314,8 @@ h3 { font-size: 14px; font-weight: 700; color: #1a3a38; margin: 12px 0 6px; }
     color: #1a4a48;
     transition: background 0.2s;
     font-weight: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 .tags span:hover { background: #57938e; }
 
