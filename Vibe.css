@@ -1252,6 +1252,7 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     /* Two-column sections (Mood Based / Genre) stack vertically,
        tags row bhi horizontal-scroll ho sakti hai */
     .two-col { grid-template-columns: 1fr; }
+    .section-box { min-width: 0; } /* grid blowout fix: taake .tags apna overflow-x:auto use kar sake */
     .tags { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
     .tags::-webkit-scrollbar { display: none; }
     .tags-genre span { padding: 9px 16px; font-size: 13px; }
@@ -1260,21 +1261,28 @@ body.dark-mode .snp-art   { background: #2a4a48; }
        (Trending upar, Latest neeche) — har row khud horizontal-scroll
        karti hai, poori page nahi */
     .grid { grid-template-columns: 1fr; }
-    .grid-col-trending, .grid-col-latest { grid-column: 1; grid-row: auto; }
-    .grid-col-toppicks { grid-column: 1; grid-row: auto; }
+    .grid-col-trending, .grid-col-latest, .grid-col-toppicks {
+        grid-column: 1;
+        grid-row: auto;
+        min-width: 0; /* grid blowout fix: taake .playlist apna overflow-x:auto use kar sake */
+    }
     .now-playing-mini-card {
         grid-column: 1;
         grid-row: auto;
+        min-width: 0;
         min-height: auto;
-        padding: 10px 12px;
-        gap: 10px;
+        padding: 7px 10px;
+        gap: 8px;
     }
-    .now-playing-mini-card .npm-art { width: 44px; height: 44px; }
-    .now-playing-mini-card .npm-title { font-size: 12px; }
-    .now-playing-mini-card .npm-channel { font-size: 10px; margin-bottom: 4px; }
-    .now-playing-mini-card .npm-right { gap: 3px; }
-    .now-playing-mini-card .npm-btn { width: 24px; height: 24px; font-size: 10px; }
-    .now-playing-mini-card .npm-btn-play { width: 30px; height: 30px; font-size: 12px; }
+    .now-playing-mini-card .npm-art { width: 34px; height: 34px; border-radius: 8px; }
+    .now-playing-mini-card .npm-art img { border-radius: 8px; }
+    .now-playing-mini-card .npm-label { font-size: 8px; margin-bottom: 1px; }
+    .now-playing-mini-card .npm-title { font-size: 11px; margin-bottom: 0; }
+    .now-playing-mini-card .npm-channel { display: none; }
+    .now-playing-mini-card .npm-progress-wrap { display: none; }
+    .now-playing-mini-card .npm-right { gap: 2px; }
+    .now-playing-mini-card .npm-btn { width: 20px; height: 20px; font-size: 9px; }
+    .now-playing-mini-card .npm-btn-play { width: 26px; height: 26px; font-size: 11px; }
 
     /* Safety net: koi bhi element galti se viewport se bahar na jaaye
        aur poori page ko sideways scroll na kare — sirf designated
@@ -1303,8 +1311,9 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     }
     .playlist.vertical::-webkit-scrollbar { display: none; }
     .playlist.vertical .box.big {
-        flex: 0 0 78%;
-        min-width: 220px;
+        flex: 0 0 40%;
+        min-width: 130px;
+        height: 80px;
     }
 
     .mood-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1361,94 +1370,4 @@ body.dark-mode .snp-art   { background: #2a4a48; }
     .fav-player-thumb { width: 54px; height: 54px; }
     .bottom-nav-btn { font-size: 9px; }
     .bottom-nav-btn i { font-size: 15px; }
-}
-
-/* =====================================================================
-   MOBILE SCROLL FIX v2 — !important version (guaranteed to win)
-   Paste this at the VERY END of Vibe.css, after everything else.
-   Only active on screens <= 768px — desktop untouched.
-   ===================================================================== */
-@media (max-width: 768px) {
-
-    .tags {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    .tags span {
-        flex-shrink: 0 !important;
-    }
-
-    #home-trending-row,
-    #home-latest-row {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    #home-trending-row .thumb-wrap,
-    #home-latest-row .thumb-wrap,
-    #home-trending-row .other-thumb,
-    #home-latest-row .other-thumb {
-        flex-shrink: 0 !important;
-    }
-
-    .playlist.vertical {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        gap: 10px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    .playlist.vertical .box.big {
-        flex: 0 0 92px !important;
-        min-width: 92px !important;
-        width: 92px !important;
-        height: 92px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 4px !important;
-        font-size: 11px !important;
-        line-height: 1.25 !important;
-        padding: 8px 6px !important;
-        border-radius: 16px !important;
-        white-space: normal !important;
-        text-align: center !important;
-    }
-
-    .now-playing-mini-card {
-        padding: 10px 12px !important;
-        gap: 10px !important;
-        min-height: auto !important;
-    }
-    .now-playing-mini-card .npm-art {
-        width: 44px !important;
-        height: 44px !important;
-    }
-    .now-playing-mini-card .npm-title {
-        font-size: 12px !important;
-    }
-    .now-playing-mini-card .npm-channel {
-        font-size: 10px !important;
-    }
-    .now-playing-mini-card .npm-btn {
-        width: 24px !important;
-        height: 24px !important;
-        font-size: 10px !important;
-    }
-    .now-playing-mini-card .npm-btn-play {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 12px !important;
-    }
 }
