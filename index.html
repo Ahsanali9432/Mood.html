@@ -224,7 +224,7 @@
                         </div>
                         <div class="npm-center">
                             <div class="npm-label">🎵 Now Playing</div>
-                            <div class="npm-title" id="npm-title">Koi mood select karein</div>
+                            <div class="npm-title" id="npm-title">Select a mood</div>
                             <div class="npm-channel" id="npm-channel">MoodVibe Music Player</div>
                             <div class="npm-progress-wrap">
                                 <div class="npm-progress-bar" id="npm-progress-bar">
@@ -362,17 +362,17 @@
 
             <!-- ARTISTS PAGE -->
             <div class="page" id="page-artists">
-                <button class="back-btn" onclick="goBack()">← Wapas Jao</button>
+                <button class="back-btn" onclick="goBack()">← Back</button>
                 <div class="other-header">
                     <h1>🎤 All Artists</h1>
-                    <p>Apna pasandida artist chuniye</p>
+                    <p>Choose your favorite artist</p>
                 </div>
                 <div class="artists-full-grid" id="artists-full-grid"></div>
             </div>
 
             <!-- ARTIST DETAIL PAGE -->
             <div class="page" id="page-artist-detail">
-                <button class="back-btn" onclick="goBackToArtists()">← Wapas Jao</button>
+                <button class="back-btn" onclick="goBackToArtists()">← Back</button>
                 <div class="mood-detail-header c1" id="artist-detail-header">
                     <div class="artist-detail-hero">
                         <div class="artist-detail-img" id="artist-detail-img"></div>
@@ -392,7 +392,7 @@
             <!-- MOODS PAGE -->
             <div class="page" id="page-moods">
                 <h1 id="l-allmoods">All Moods</h1>
-                <p class="subtitle" id="l-moodssub">Apna mood chuniye aur music enjoy karein</p>
+                <p class="subtitle" id="l-moodssub">Choose your mood and enjoy the music</p>
                 <div class="mood-grid">
                     <div class="mood-big-card c1" onclick="showMood('happy')">
                         <span class="fav-heart fav-heart--corner" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</span>
@@ -436,7 +436,7 @@
             <!-- GENRES PAGE -->
             <div class="page" id="page-genres">
                 <h1 id="l-genrespage">Genres</h1>
-                <p class="subtitle" id="l-genressub">Genre ya language ke hisaab se music chuniye</p>
+                <p class="subtitle" id="l-genressub">Choose music by genre or language</p>
                 <div class="genre-grid">
                     <div class="genre-card" onclick="showMood('punjabi')">
                         <span class="fav-heart fav-heart--corner-sm" data-mood="punjabi" onclick="toggleFavMood(event,'punjabi')">♡</span>
@@ -483,7 +483,7 @@
                         <h2 class="fav-right-title" id="l-favrighttitle">Your Favorite Playlists</h2>
                         <p class="fav-right-sub" id="l-favrightsub">Jo bhi ♡ se favorite kiya hai, wo yahan milega</p>
                         <div id="fav-empty-state" style="display:none;">
-                            <p style="color:#567676; font-size:13px; padding:6px 0 14px;">Abhi tak koi favorite nahi. Kisi card, tag ya playlist ke ♡ button par click karke add karein.</p>
+                            <p style="color:#567676; font-size:13px; padding:6px 0 14px;">No favorites yet. Tap the &#9825; button on any card, tag, or playlist to add one.</p>
                         </div>
                         <div class="fav-player-list" id="fav-player-list"></div>
                     </div>
@@ -506,7 +506,7 @@
                     </div>
                     <div class="snp-info">
                         <div class="snp-label">🎵 Now Playing</div>
-                        <div class="snp-title" id="search-result-title">Search karein...</div>
+                        <div class="snp-title" id="search-result-title">Search for something...</div>
                         <div class="snp-sub" id="search-result-sub"></div>
                     </div>
                     <div class="snp-controls">
@@ -534,7 +534,7 @@
                 <button class="back-btn" onclick="goBack()">← <span id="l-back1">Wapas Jao</span></button>
                 <div class="mood-detail-header c1">
                     <span class="fav-heart fav-heart--header" data-mood="happy" onclick="toggleFavMood(event,'happy')">♡</span>
-                    <div class="big-icon">😊</div><h1>Happy Playlist</h1><p>Khushi bhare gaane!</p>
+                    <div class="big-icon">😊</div><h1>Happy Playlist</h1><p>Feel-good songs to brighten your day!</p>
                 </div>
                 <div class="song-list">
                     <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Happy — Pharrell Williams</div><div class="song-sub">Pop • 3:53</div></div><span class="play-icon">▶</span></div>
@@ -548,7 +548,7 @@
                 <button class="back-btn" onclick="goBack()">← <span id="l-back2">Wapas Jao</span></button>
                 <div class="mood-detail-header c2">
                     <span class="fav-heart fav-heart--header" data-mood="sad" onclick="toggleFavMood(event,'sad')">♡</span>
-                    <div class="big-icon">😢</div><h1>Sad Playlist</h1><p>Dil ki baat kehne wale gaane</p>
+                    <div class="big-icon">😢</div><h1>Sad Playlist</h1><p>Songs that speak from the heart</p>
                 </div>
                 <div class="song-list">
                     <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Someone Like You</div><div class="song-sub">Adele • 4:45</div></div><span class="play-icon">▶</span></div>
@@ -561,7 +561,7 @@
                 <button class="back-btn" onclick="goBack()">← <span id="l-back3">Wapas Jao</span></button>
                 <div class="mood-detail-header c3">
                     <span class="fav-heart fav-heart--header" data-mood="romantic" onclick="toggleFavMood(event,'romantic')">♡</span>
-                    <div class="big-icon">❤️</div><h1>Romantic Playlist</h1><p>Pyaar ke gaane</p>
+                    <div class="big-icon">❤️</div><h1>Romantic Playlist</h1><p>Songs of love</p>
                 </div>
                 <div class="song-list">
                     <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Perfect</div><div class="song-sub">Ed Sheeran • 4:23</div></div><span class="play-icon">▶</span></div>
@@ -587,7 +587,7 @@
                 <button class="back-btn" onclick="goBack()">← <span id="l-back5">Wapas Jao</span></button>
                 <div class="mood-detail-header c5">
                     <span class="fav-heart fav-heart--header" data-mood="sleep" onclick="toggleFavMood(event,'sleep')">♡</span>
-                    <div class="big-icon">🌙</div><h1>Sleep Playlist</h1><p>Sukoon bhari raatein</p>
+                    <div class="big-icon">🌙</div><h1>Sleep Playlist</h1><p>Peaceful nights</p>
                 </div>
                 <div class="song-list">
                     <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Weightless</div><div class="song-sub">Marconi Union • 8:09</div></div><span class="play-icon">▶</span></div>
@@ -614,16 +614,16 @@
                     <span class="fav-heart fav-heart--header" id="default-fav-heart" data-mood="" onclick="toggleFavMood(event, this.getAttribute('data-mood'))">♡</span>
                     <div class="big-icon" id="default-icon">🎵</div>
                     <h1 id="default-title">Playlist</h1>
-                    <p id="default-sub">Is mood ke gaane</p>
+                    <p id="default-sub">Songs for this mood</p>
                 </div>
                 <div class="song-list">
-                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Coming Soon...</div><div class="song-sub">Jald aayenge gaane</div></div><span class="play-icon">▶</span></div>
+                    <div class="song-item"><span class="song-num">1</span><div class="song-img">🎵</div><div class="song-info"><div class="song-title">Coming Soon...</div><div class="song-sub">More songs coming soon</div></div><span class="play-icon">▶</span></div>
                 </div>
             </div>
 
             <div class="page" id="page-other">
                 <button class="back-btn" onclick="closeOtherPage()">← <span id="l-back8">Wapas Jao</span></button>
-                <div class="other-header"><h1 id="other-title">More Options</h1><p id="other-sub">Apni pasand chuniye</p></div>
+                <div class="other-header"><h1 id="other-title">More Options</h1><p id="other-sub">Choose what you like</p></div>
                 <div class="opt-grid" id="other-grid"></div>
             </div>
 
