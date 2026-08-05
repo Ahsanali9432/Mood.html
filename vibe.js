@@ -144,14 +144,14 @@ function searchVideosForMood(mood, keywordIndex, callback) {
     if (keywordIndex >= keywords.length) { callback([]); return; }
 
     if (!YT_API_KEY || YT_API_KEY.indexOf('YAHAN_APNI') !== -1) {
-        console.warn('YT_API_KEY set nahi ki gayi.');
+        console.warn('YT_API_KEY is not set.');
         callback([]);
         return;
     }
 
     var q = keywords[keywordIndex];
     searchYouTubeRaw(q, function(songs) {
-        console.log('[MoodVibe] ' + songs.length + ' songs mili "' + q + '" [' + mood + ']');
+        console.log('[MoodVibe] ' + songs.length + ' songs found for "' + q + '" [' + mood + ']');
         callback(songs);
     }, mood);
 }
@@ -348,7 +348,7 @@ function performGlobalSearch(query) {
     var titleEl = document.getElementById('search-result-title');
     var subEl   = document.getElementById('search-result-sub');
     var listEl  = document.getElementById('search-song-list');
-    if (titleEl) titleEl.textContent = '🔍 "' + query + '" search ho raha hai...';
+    if (titleEl) titleEl.textContent = '🔍 Searching for "' + query + '"...';
     if (subEl)   subEl.textContent   = '';
     if (listEl)  listEl.innerHTML    = '<div class="song-item"><div class="song-info"><div class="song-title">Loading...</div></div></div>';
     restoreSearchHeaderIcon();
@@ -357,7 +357,7 @@ function performGlobalSearch(query) {
         if (token !== searchLoadToken) return;
 
         if (!allSongs || allSongs.length === 0) {
-            if (titleEl) titleEl.textContent = '⚠️ "' + query + '" ke liye koi gaana nahi mila';
+            if (titleEl) titleEl.textContent = '⚠️ No songs found for "' + query + '"';
             if (subEl)   subEl.textContent   = '';
             if (listEl)  listEl.innerHTML    = '';
             currentPlaylistSongs = [];
@@ -421,7 +421,7 @@ function renderSearchSongList(songs) {
     if (!songList) return;
 
     if (songs.length === 0) {
-        songList.innerHTML = '<div class="song-item"><div class="song-info"><div class="song-title">Koi related song nahi mila</div></div></div>';
+        songList.innerHTML = '<div class="song-item"><div class="song-info"><div class="song-title">No related songs found</div></div></div>';
         return;
     }
 
@@ -475,7 +475,7 @@ function _loadMoodSongs(mood) {
         if (token !== moodLoadToken) return;
         if (!songs || songs.length === 0) {
             var titleEl = document.querySelector('.playlist-title');
-            if (titleEl) titleEl.textContent = '⚠️ Is mood ki koi gaana nahi mil saka.';
+            if (titleEl) titleEl.textContent = '⚠️ No songs could be found for this mood.';
             return;
         }
         currentPlaylistSongs = songs;
@@ -574,7 +574,7 @@ function initYTPlayer() {
                         if (st === YT.PlayerState.BUFFERING || st === -1) {
                             var bad = currentPlaylistSongs[currentSongIndex];
                             if (bad) {
-                                showSkipToast('⏭ Song load nahi hua, skip ho raha hai...');
+                                showSkipToast('⏭ Song failed to load, skipping...');
                                 bad.ytOnly = true;
                                 _refreshCurrentSongList();
                                 var nextIdx = -1;
@@ -668,7 +668,7 @@ function renderSongListForMood(mood, songs) {
     if (!songList) return;
 
     if (!songs || songs.length === 0) {
-        songList.innerHTML = '<div class="song-item"><div class="song-info"><div class="song-title">Koi song nahi mili</div></div></div>';
+        songList.innerHTML = '<div class="song-item"><div class="song-info"><div class="song-title">No songs found</div></div></div>';
         return;
     }
 
@@ -968,11 +968,11 @@ function toggleFavSong(key) {
         list = list.filter(function(item) { return item.key !== key; });
         var songData = lookupSongByFavKey(key);
         if (songData) list.unshift(songData);
-        showFavToast('Song favorites mein add ho gaya! ❤️');
+        showFavToast('Song added to favorites! ❤️');
     } else {
         favs.splice(idx, 1);
         list = list.filter(function(item) { return item.key !== key; });
-        showFavToast('Song favorites se hata diya');
+        showFavToast('Song removed from favorites');
     }
     saveFavSongIds(favs);
     saveFavSongsList(list);
@@ -1014,13 +1014,13 @@ function renderFavoritesHero() {
         container.innerHTML =
             '<div class="fav-empty-hero">' +
                 '<div class="fav-empty-hero-icon">🤍</div>' +
-                '<p>Abhi koi song favorite nahi hua. Kisi bhi song ke ♡ button par tap karein — uski mood-playlist yahan khud ban jayegi.</p>' +
+                '<p>No favorite songs yet. Tap the ♡ button on any song — its mood-playlist will appear here automatically.</p>' +
             '</div>';
         if (playerList) {
             playerList.innerHTML =
                 '<div class="fav-empty-hero">' +
                     '<div class="fav-empty-hero-icon">🎵</div>' +
-                    '<p>Abhi tak koi favorite nahi. Kisi song ko ♡ karein — playlist yahan bhi dikhegi.</p>' +
+                    '<p>No favorites yet. Tap ♡ on a song — its playlist will show up here too.</p>' +
                 '</div>';
         }
         return;
@@ -1185,16 +1185,16 @@ function renderHistory() {
 }
 
 var moodMap = {
-    happy:        {icon:'😊', title:'Happy Playlist',      sub:'Khushi bhare gaane'},
-    sad:          {icon:'😢', title:'Sad Playlist',        sub:'Dil ki baat kehne wale gaane'},
-    romantic:     {icon:'❤️', title:'Romantic Playlist',   sub:'Pyaar ke gaane'},
+    happy:        {icon:'😊', title:'Happy Playlist',      sub:'Feel-good songs'},
+    sad:          {icon:'😢', title:'Sad Playlist',        sub:'Songs that speak from the heart'},
+    romantic:     {icon:'❤️', title:'Romantic Playlist',   sub:'Songs of love'},
     energetic:    {icon:'⚡', title:'Energetic Playlist',  sub:'Full energy boost!'},
-    sleep:        {icon:'🌙', title:'Sleep Playlist',      sub:'Sukoon bhari raatein'},
-    lofi:         {icon:'🎧', title:'Lofi Playlist',       sub:'Study aur chill beats'},
-    broken:       {icon:'💔', title:'Broken Heart',        sub:'Dard ke gaane'},
-    love:         {icon:'💚', title:'Love Playlist',       sub:'Mohabbat ke gaane'},
+    sleep:        {icon:'🌙', title:'Sleep Playlist',      sub:'Peaceful nights'},
+    lofi:         {icon:'🎧', title:'Lofi Playlist',       sub:'Study and chill beats'},
+    broken:       {icon:'💔', title:'Broken Heart',        sub:'Heartbreak songs'},
+    love:         {icon:'💚', title:'Love Playlist',       sub:'Songs about love'},
     gym:          {icon:'🏋', title:'Gym Playlist',        sub:'Workout beats'},
-    motivation:   {icon:'💪', title:'Motivation',          sub:'Himmat wale gaane'},
+    motivation:   {icon:'💪', title:'Motivation',          sub:'Songs to keep you going'},
     punjabi:      {icon:'🎤', title:'Punjabi Hits',        sub:'Best Punjabi songs'},
     hiphop:       {icon:'🎧', title:'Hip Hop',             sub:'Top Hip Hop tracks'},
     hollywood:    {icon:'🎬', title:'Hollywood',           sub:'Best Hollywood music'},
@@ -1203,40 +1203,40 @@ var moodMap = {
     classical:    {icon:'🎹', title:'Classical Music',     sub:'Timeless classical pieces'},
     pop:          {icon:'🥁', title:'Pop Hits',            sub:'Top Pop songs'},
     jazz:         {icon:'🎺', title:'Jazz Collection',     sub:'Smooth jazz tracks'},
-    calm:         {icon:'😌', title:'Calm Playlist',       sub:'Sukoon bhare gaane'},
-    angry:        {icon:'😤', title:'Angry Playlist',      sub:'Gussa nikalne wale gaane'},
+    calm:         {icon:'😌', title:'Calm Playlist',       sub:'Soothing, peaceful songs'},
+    angry:        {icon:'😤', title:'Angry Playlist',      sub:'Songs to let off steam'},
     party:        {icon:'🥳', title:'Party Playlist',      sub:'Party anthems'},
-    tired:        {icon:'😴', title:'Tired Playlist',      sub:'Thakaan utarne wale gaane'},
-    devotional:   {icon:'🙏', title:'Devotional',          sub:'Ibadat ke gaane'},
-    rainyday:     {icon:'🌧️', title:'Rainy Day',           sub:'Baarish ke mausam ke gaane'},
-    morning:      {icon:'☀️', title:'Morning Playlist',    sub:'Subah ke fresh gaane'},
-    nightdrive:   {icon:'🌃', title:'Night Drive',         sub:'Raat ki drive ke gaane'},
-    funny:        {icon:'😂', title:'Funny Songs',         sub:'Hasi mazaak wale gaane'},
-    meditation:   {icon:'🧘', title:'Meditation',          sub:'Dhyaan aur shanti ke liye'},
-    running:      {icon:'🏃', title:'Running Playlist',    sub:'Daudne ke liye energetic gaane'},
-    yoga:         {icon:'🧘‍♀️', title:'Yoga Playlist',    sub:'Yoga ke liye shaant gaane'},
-    roadtrip:     {icon:'🚗', title:'Road Trip',           sub:'Safar ke gaane'},
-    study:        {icon:'📚', title:'Study Playlist',      sub:'Padhai ke liye focus music'},
-    cooking:      {icon:'🍳', title:'Cooking Playlist',    sub:'Khana banate waqt ke gaane'},
-    cleaning:     {icon:'🧹', title:'Cleaning Playlist',   sub:'Safai karte waqt ke gaane'},
-    walking:      {icon:'🚶', title:'Walking Playlist',    sub:'Walk ke liye gaane'},
-    dance:        {icon:'💃', title:'Dance Playlist',      sub:'Dance ke gaane'},
+    tired:        {icon:'😴', title:'Tired Playlist',      sub:'Songs to unwind and rest'},
+    devotional:   {icon:'🙏', title:'Devotional',          sub:'Songs of devotion'},
+    rainyday:     {icon:'🌧️', title:'Rainy Day',           sub:'Songs for a rainy day'},
+    morning:      {icon:'☀️', title:'Morning Playlist',    sub:'Fresh songs to start the day'},
+    nightdrive:   {icon:'🌃', title:'Night Drive',         sub:'Songs for a night drive'},
+    funny:        {icon:'😂', title:'Funny Songs',         sub:'Songs for a good laugh'},
+    meditation:   {icon:'🧘', title:'Meditation',          sub:'Music for calm and mindfulness'},
+    running:      {icon:'🏃', title:'Running Playlist',    sub:'Energetic songs for a run'},
+    yoga:         {icon:'🧘‍♀️', title:'Yoga Playlist',    sub:'Calm songs for yoga'},
+    roadtrip:     {icon:'🚗', title:'Road Trip',           sub:'Songs for the journey'},
+    study:        {icon:'📚', title:'Study Playlist',      sub:'Focus music for studying'},
+    cooking:      {icon:'🍳', title:'Cooking Playlist',    sub:'Songs for cooking time'},
+    cleaning:     {icon:'🧹', title:'Cleaning Playlist',   sub:'Songs for cleaning time'},
+    walking:      {icon:'🚶', title:'Walking Playlist',    sub:'Songs for a walk'},
+    dance:        {icon:'💃', title:'Dance Playlist',      sub:'Songs to dance to'},
     urdu:         {icon:'🎙️', title:'Urdu Songs',          sub:'Best Urdu music'},
     sindhi:       {icon:'🎵', title:'Sindhi Songs',        sub:'Best Sindhi music'},
     pashto:       {icon:'🎤', title:'Pashto Songs',        sub:'Best Pashto music'},
     kpop:         {icon:'🎧', title:'K-Pop',               sub:'Top K-Pop hits'},
-    viralhits:    {icon:'🎵', title:'Viral Hits',          sub:'Sab se zyada chalne wale gaane'},
-    top50:        {icon:'🎶', title:'Top 50',              sub:'Top 50 songs is hafte'},
-    hotnow:       {icon:'🔥', title:'Hot Now',             sub:'Abhi trend mein'},
-    chartbusters: {icon:'📈', title:'Chart Busters',       sub:'Charts pe top gaane'},
-    justadded:    {icon:'🆕', title:'Just Added',          sub:'Nayi additions'},
-    newsingles:   {icon:'🎤', title:'New Singles',         sub:'Naye singles'},
-    newalbums:    {icon:'💿', title:'New Albums',          sub:'Naye albums'},
-    trending:     {icon:'🔥', title:'Trending Songs',      sub:'Abhi sab sun rahe hain'},
-    latest:       {icon:'🆕', title:'Latest Songs',        sub:'Naye aaye gaane'},
-    tophappy:     {icon:'😊', title:'Top Happy Songs',     sub:'Sab se zyada suney gaye khushi ke gaane'},
-    topsad:       {icon:'😢', title:'Top Sad Songs',       sub:'Sab se popular sad gaane'},
-    topenergetic: {icon:'⚡', title:'Top Energetic Songs', sub:'Sab se popular energy songs'},
+    viralhits:    {icon:'🎵', title:'Viral Hits',          sub:'The most-played songs right now'},
+    top50:        {icon:'🎶', title:'Top 50',              sub:'Top 50 songs this week'},
+    hotnow:       {icon:'🔥', title:'Hot Now',             sub:'Trending right now'},
+    chartbusters: {icon:'📈', title:'Chart Busters',       sub:'Top songs on the charts'},
+    justadded:    {icon:'🆕', title:'Just Added',          sub:'New additions'},
+    newsingles:   {icon:'🎤', title:'New Singles',         sub:'New singles'},
+    newalbums:    {icon:'💿', title:'New Albums',          sub:'New albums'},
+    trending:     {icon:'🔥', title:'Trending Songs',      sub:'What everyone is listening to right now'},
+    latest:       {icon:'🆕', title:'Latest Songs',        sub:'Newly released songs'},
+    tophappy:     {icon:'😊', title:'Top Happy Songs',     sub:'The most-played happy songs'},
+    topsad:       {icon:'😢', title:'Top Sad Songs',       sub:'The most popular sad songs'},
+    topenergetic: {icon:'⚡', title:'Top Energetic Songs', sub:'The most popular energy songs'},
     search:       {icon:'🔍', title:'Search',              sub:''},
     favorites:    {icon:'❤️', title:'Favorites',           sub:''}
 };
@@ -1640,13 +1640,13 @@ var translations = {
         trending:'Trending Songs', latest:'Latest Songs', toppicks:'Top Mood Picks',
         tophappy:'Top Happy', topsad:'Top Sad', topenergy:'Top Energetic',
         nowplaying:'Now Playing', allmoods:'All Moods',
-        moodssub:'Apna mood chuniye aur music enjoy karein',
-        genrespage:'Genres', genressub:'Genre ya language ke hisaab se music chuniye',
-        favpage:'Favorites', favsub:'Aapke pasandeeda moods aur playlists',
-        favempty:'Abhi tak koi favorite nahi. Kisi card ya tag ke ♡ button par click karke add karein.',
+        moodssub:'Choose your mood and enjoy the music',
+        genrespage:'Genres', genressub:'Choose music by genre or language',
+        favpage:'Favorites', favsub:'Your favorite moods and playlists',
+        favempty:'No favorites yet. Tap the ♡ button on any card or tag to add one.',
         favRightTitle:'Your Favorite Playlists', favRightSub:'Everything you have hearted shows up here',
-        histpage:'History', histsub:'Aapne recently kya suna',
-        back:'Wapas Jao',
+        histpage:'History', histsub:'What you listened to recently',
+        back:'Back',
         broken:'Broken Heart', love:'Love', gym:'Gym', lofi:'Lofi', motivation:'Motivation',
         loginBtn:'Login', signupBtn:'Sign Up', logoutBtn:'Logout'
     },
@@ -1906,10 +1906,10 @@ function toggleFavMood(e, key) {
     var info = moodMap[key] || { icon: '🎵', title: key };
     if (idx === -1) {
         favs.push({ key: key, icon: info.icon, name: info.title });
-        showFavToast((info.title || key) + ' favorites mein add ho gaya! ❤️');
+        showFavToast((info.title || key) + ' added to favorites! ❤️');
     } else {
         favs.splice(idx, 1);
-        showFavToast((info.title || key) + ' favorites se hata diya');
+        showFavToast((info.title || key) + ' removed from favorites');
     }
     saveFavMoods(favs);
     syncFavButtons();
@@ -2010,10 +2010,10 @@ function showEmbedBlockedToast(song) {
         'z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.35);max-width:340px;width:90%;';
 
     t.innerHTML =
-        '<div style="font-weight:700;margin-bottom:6px;font-size:11px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;">⚠️ Yeh song sirf YouTube pe chal sakta hai</div>' +
+        '<div style="font-weight:700;margin-bottom:6px;font-size:11px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;">⚠️ This song can only play on YouTube</div>' +
         '<div style="font-size:13px;margin-bottom:10px;line-height:1.4;">' + escapeHtml(shortTitle) + '</div>' +
         '<div style="display:flex;gap:8px;">' +
-            '<a href="' + ytUrl + '" target="_blank" style="flex:1;background:#ff0000;color:white;border:none;padding:8px 0;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:block;">▶ YouTube pe Kholo</a>' +
+            '<a href="' + ytUrl + '" target="_blank" style="flex:1;background:#ff0000;color:white;border:none;padding:8px 0;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:block;">▶ Open in YouTube</a>' +
             '<button onclick="document.getElementById(\'embed-blocked-toast\').remove();" style="flex:0 0 36px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:10px;font-size:14px;cursor:pointer;">✕</button>' +
         '</div>';
 
@@ -2039,7 +2039,7 @@ function updateNowPlayingMiniCard(song) {
         if (chan)  chan.textContent   = song.channel || '';
     } else {
         artEl.innerHTML = '<div class="npm-art-placeholder"><div class="npm-bars"><span></span><span></span><span></span><span></span><span></span></div></div>';
-        if (title) title.textContent = 'Koi mood select karein';
+        if (title) title.textContent = 'Select a mood';
         if (chan)  chan.textContent   = 'MoodVibe Music Player';
         card.classList.remove('is-playing');
         var fill  = document.getElementById('npm-progress-fill');
@@ -2178,7 +2178,7 @@ function showArtist(key) {
     searchYouTubeRaw(artist.search, function(songs) {
         if (token !== moodLoadToken) return;
         if (!songs || songs.length === 0) {
-            if (songList) songList.innerHTML = '<div class="song-item"><div class="song-info"><div class="song-title">⚠️ Songs nahi mili. Internet check karein.</div></div></div>';
+            if (songList) songList.innerHTML = '<div class="song-item"><div class="song-info"><div class="song-title">⚠️ No songs found. Please check your internet connection.</div></div></div>';
             return;
         }
         currentPlaylistSongs = songs;
